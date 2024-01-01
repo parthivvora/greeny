@@ -6,6 +6,8 @@ const cors = require("cors");
 app.use(express.json())
 app.use(cors({ origin: "*", credentials: true }))
 
+app.use("/api", require("./routes/index"))
+
 db.on("error", console.error.bind(console, "Connection Error :- "))
 db.once("open", (error, response) => {
     if (error) throw Error()
