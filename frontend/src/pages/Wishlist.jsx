@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import imageConstant from '../global/imageConstant'
+import { imageConstant } from '../global/imageConstant';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -57,7 +57,7 @@ function Wishlist() {
                                                 <button className="action-minus" title="Quantity Minus"><i className="icofont-minus" /></button>
                                                 <input className="action-input" title="Quantity Number" type="text" name="quantity" defaultValue={1} />
                                                 <button className="action-plus" title="Quantity Plus"><i className="icofont-plus" /></button>
-                                                </div>
+                                            </div>
                                         </div>
                                         <div className="view-action-group"><a className="view-wish wish" href="#" title="Add Your Wishlist"><i className="icofont-heart" /><span>add to
                                             wish</span></a><a className="view-compare" href="compare.html" title="Compare This Item"><i className="fas fa-random" /><span>Compare

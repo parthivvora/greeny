@@ -1,5 +1,5 @@
 import React from 'react'
-import imageConstant from '../global/imageConstant'
+import { imageConstant } from '../global/imageConstant';
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
@@ -64,7 +64,7 @@ function Blog() {
                                             </ul>
                                             <h4 className="blog-title"><a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a></h4>
                                             <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                             <Link className='blog-btn' to={`/blog/2`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
+                                            <Link className='blog-btn' to={`/blog/2`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@ function Blog() {
                                             </ul>
                                             <h4 className="blog-title"><a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a></h4>
                                             <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                             <Link className='blog-btn' to={`/blog/3`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
+                                            <Link className='blog-btn' to={`/blog/3`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
                                         </div>
                                     </div>
                                 </div>

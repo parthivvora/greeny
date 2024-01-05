@@ -50,6 +50,7 @@ function Home() {
         slidesToScroll: 1,
         arrows: false
     }
+
     return (
         <div className='home'>
             <Navbar />

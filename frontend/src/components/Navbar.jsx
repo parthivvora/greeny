@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
     const isUserAuth = window.localStorage.getItem("userAuthToken")
-    console.log("🚀 ~ file: Navbar.jsx:6 ~ Navbar ~ isUserAuth:", isUserAuth)
+    const userName = window.localStorage.getItem("userName")
     const navigate = useNavigate()
     const checkUserAuth = () => {
         isUserAuth ? navigate("/profile") : navigate("/login")
     }
     const logoutUser = () => {
+        window.localStorage.clear("userAuthToken")
+        window.localStorage.clear("userName")
         navigate("/")
     }
     return (
@@ -18,13 +20,14 @@ function Navbar() {
                 <div className="container">
                     <div className="header-content">
                         <div className="header-media-group">
-                            <button className="header-user"><img src={require("../images/user.png")} alt="user.png" /></button>
+                            <button className="header-user"><i className="fa-solid fa-user"></i></button>
                             <a href="/"><img src={require("../images/logo.png")} alt="logo.png" /></a>
                             <button className="header-src"><i className="fas fa-search" /></button>
                         </div>
-                        <a href="/" className="header-logo">
-                            <img src={require("../images/logo.png")} alt="logo.png" /></a>
-                        <button className="header-widget" title="My Account" onClick={checkUserAuth}><img src={require("../images/user.png")} alt="user.png" /><span>join</span></button>
+                        <a href="/" className="header-logo"><img src={require("../images/logo.png")} alt="logo.png" /></a>
+                        <button className="header-widget" title="My Account" onClick={checkUserAuth}>
+                            <i className="fa-solid fa-user"></i><span>{userName ? userName : "User"}</span>
+                        </button>
                         <form className="header-form">
                             <input type="text" placeholder="Search anything..." />
                             <button><i className="fas fa-search" /></button>

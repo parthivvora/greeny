@@ -14,8 +14,17 @@ const userSchema = new mongoose.Schema({
         type: Number
     },
     address: {
-        type: String
+        type: String,
+        default: ""
     },
+    addressType: {
+        type: String,
+        default: ""
+    },
+    userImage: {
+        type: String,
+        default: ""
+    }
 })
 
 const userModel = mongoose.model("users", userSchema)

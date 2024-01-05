@@ -11,7 +11,7 @@ const makeApiRequest = (method, url, data, headers, params) =>
                 headers,
                 params
             },
-            ...(userAuthToken && { headers: { 'userAuth': userAuthToken } })
+            ...(userAuthToken && { headers: { 'userAuth': `Bearer ${userAuthToken}` } })
         }
         if (headers) {
             options.headers = { ...options.headers, ...headers }

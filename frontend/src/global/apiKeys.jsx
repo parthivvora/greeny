@@ -9,14 +9,14 @@ const apiTypes = {
 
 const apiKeys = {
     userRegister: `${BASE_URL}user/register`,
-    userLogin: `${BASE_URL}user/profile`,
+    userLogin: `${BASE_URL}user/login`,
     getUserProfile: `${BASE_URL}user/profile`,
+    editUserProfile: `${BASE_URL}user/profile/edit`,
+    changePasswordOfUserProfile: `${BASE_URL}user/changePassword`,
 
-    getAllSocietyInfo: `${BASE_URL}getAllSocietyInfo`,
-    getSingleSocietyInfo: `${BASE_URL}getSingleSocietyInfo/`,
-    updateSocietyInfo: `${BASE_URL}updateSocietyInfo/`,
-    getAllUserInfo: `${BASE_URL}getAllUserInfo/`,
-    getAllInfoDash: `${BASE_URL}getAllInfoDash`,
+    // updateSocietyInfo: `${BASE_URL}updateSocietyInfo/`,
+    // getAllUserInfo: `${BASE_URL}getAllUserInfo/`,
+    // getAllInfoDash: `${BASE_URL}getAllInfoDash`,
 }
 
 export { apiKeys, apiTypes }

@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import imageConstant from '../global/imageConstant'
+import { imageConstant } from '../global/imageConstant';
 
 function Cart() {
     return (

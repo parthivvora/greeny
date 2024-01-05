@@ -2,11 +2,14 @@ const express = require("express")
 const app = express()
 const db = require("./utils/dbConfig")
 const cors = require("cors");
+const path = require("path");
 
 app.use(express.json())
 app.use(cors({ origin: "*", credentials: true }))
 
 app.use("/api", require("./routes/index"))
+
+app.use(express.static(path.join(__dirname, "/public")))
 
 db.on("error", console.error.bind(console, "Connection Error :- "))
 db.once("open", (error, response) => {

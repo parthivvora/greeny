@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Privacy from "./pages/Privacy";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
     </div>
   );

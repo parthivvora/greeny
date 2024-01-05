@@ -1,10 +1,10 @@
 import React from 'react'
-import imageConstant from '../global/imageConstant'
 import Navbar from '../components/Navbar'
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Footer from '../components/Footer';
+import { imageConstant } from '../global/imageConstant';
 
 function About() {
     var aboutTestimonialOptions = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import imageConstant from '../global/imageConstant'
+import { imageConstant } from '../global/imageConstant';
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 
@@ -101,7 +101,7 @@ function Contact() {
                     </div>
                 </div>
             </section>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

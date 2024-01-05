@@ -1,5 +1,5 @@
 import React from 'react'
-import imageConstant from '../global/imageConstant'
+import { imageConstant } from '../global/imageConstant';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
