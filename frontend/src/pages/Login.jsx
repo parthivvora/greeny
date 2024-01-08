@@ -13,7 +13,7 @@ function Login() {
         e.preventDefault()
         makeApiRequest(apiTypes.POST, apiKeys.userLogin, userInfo, null, null)
             .then((response) => {
-                console.log("🚀 ~ file: Login.jsx:14 ~ .then ~ response:", response.data.userData)
+                // console.log("🚀 ~ file: Login.jsx:14 ~ .then ~ response:", response.data.userData)
                 alert(response.data.message)
                 localStorage.setItem("userAuthToken", response.data.userData.userToken)
                 localStorage.setItem("userName", response.data.userData.userName)

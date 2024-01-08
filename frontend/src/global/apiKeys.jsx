@@ -14,8 +14,9 @@ const apiKeys = {
     editUserProfile: `${BASE_URL}user/profile/edit`,
     changePasswordOfUserProfile: `${BASE_URL}user/changePassword`,
 
-    // updateSocietyInfo: `${BASE_URL}updateSocietyInfo/`,
-    // getAllUserInfo: `${BASE_URL}getAllUserInfo/`,
+    getAllBlogs: `${BASE_URL}admin/getAllBlogs`,
+    getSingleBlog: `${BASE_URL}admin/getSingleBlog`,
+
     // getAllInfoDash: `${BASE_URL}getAllInfoDash`,
 }
 

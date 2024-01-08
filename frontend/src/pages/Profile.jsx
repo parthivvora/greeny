@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
-import { IMAGEBASEURL, imageConstant } from '../global/imageConstant';
+import { IMAGEBASEURL_USER, imageConstant } from '../global/imageConstant';
 import makeApiRequest from '../global/apiCall'
 import { apiKeys, apiTypes } from '../global/apiKeys'
 
@@ -74,7 +74,7 @@ function Profile() {
                                 <div className="account-content">
                                     <div className="row">
                                         <div className="col-lg-2">
-                                            <div className="profile-image"><a><img src={`${IMAGEBASEURL}${userImage}`} alt={userImage} /></a></div>
+                                            <div className="profile-image"><a><img src={`${IMAGEBASEURL_USER}${userImage}`} alt={userImage} /></a></div>
                                         </div>
                                         <div className="col-md-6 col-lg-4">
                                             <div className="form-group">

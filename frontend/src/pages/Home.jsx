@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { Link } from 'react-router-dom';
 
 function Home() {
     var bannerPartSliderOptions = {
@@ -660,78 +659,6 @@ function Home() {
                                     </div>
                                 </Slider>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section className="section blog-part">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="section-heading">
-                                <h2>Read our articles</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="blog-slider slider-arrow">
-                                <Slider {...articleSliderOptions}>
-                                    <div className="blog-card">
-                                        <div className="blog-media"><Link className="blog-img" to={`/blog/1`}><img src={require("../images/blog/01.jpg")} alt="01.jpg" /></Link></div>
-                                        <div className="blog-content">
-                                            <ul className="blog-meta">
-                                                <li><i className="fas fa-user" /><span>admin</span></li>
-                                                <li><i className="fas fa-calendar-alt" /><span>february 02, 2021</span></li>
-                                            </ul>
-                                            <h4 className="blog-title">Voluptate blanditiis provident Lorem ipsum dolor sit amet</h4>
-                                            <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                            <Link className="blog-btn" to={`/blog/1`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
-                                        </div>
-                                    </div>
-                                    <div className="blog-card">
-                                        <div className="blog-media"><Link className="blog-img" to={`/blog/2`}><img src={require("../images/blog/02.jpg")} alt="02.jpg" /></Link></div>
-                                        <div className="blog-content">
-                                            <ul className="blog-meta">
-                                                <li><i className="fas fa-user" /><span>admin</span></li>
-                                                <li><i className="fas fa-calendar-alt" /><span>february 02, 2021</span></li>
-                                            </ul>
-                                            <h4 className="blog-title">Voluptate blanditiis provident Lorem ipsum dolor sit amet</h4>
-                                            <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                            <Link className="blog-btn" to={`/blog/2`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
-                                        </div>
-                                    </div>
-                                    <div className="blog-card">
-                                        <div className="blog-media"><Link className="blog-img" to={`/blog/3`}><img src={require("../images/blog/03.jpg")} alt="03.jpg" /></Link></div>
-                                        <div className="blog-content">
-                                            <ul className="blog-meta">
-                                                <li><i className="fas fa-user" /><span>admin</span></li>
-                                                <li><i className="fas fa-calendar-alt" /><span>february 02, 2021</span></li>
-                                            </ul>
-                                            <h4 className="blog-title">Voluptate blanditiis provident Lorem ipsum dolor sit amet</h4>
-                                            <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                            <Link className="blog-btn" to={`/blog/3`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
-                                        </div>
-                                    </div>
-                                    <div className="blog-card">
-                                        <div className="blog-media"><Link className="blog-img" to={`/blog/4`}><img src={require("../images/blog/04.jpg")} alt="04.jpg" /></Link></div>
-                                        <div className="blog-content">
-                                            <ul className="blog-meta">
-                                                <li><i className="fas fa-user" /><span>admin</span></li>
-                                                <li><i className="fas fa-calendar-alt" /><span>february 02, 2021</span></li>
-                                            </ul>
-                                            <h4 className="blog-title">Voluptate blanditiis provident Lorem ipsum dolor sit amet</h4>
-                                            <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                            <Link className="blog-btn" to={`/blog/4`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
-                                        </div>
-                                    </div>
-                                </Slider>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="section-btn-25"><a href="blog-grid.html" className="btn btn-outline"><i className="fas fa-eye" /><span>view all blog</span></a></div>
                         </div>
                     </div>
                 </div>

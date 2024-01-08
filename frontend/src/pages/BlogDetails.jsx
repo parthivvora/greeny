@@ -1,12 +1,32 @@
-import React from 'react'
-import { imageConstant } from '../global/imageConstant';
+import React, { useCallback, useEffect, useState } from 'react'
+import { IMAGEBASEURL_BLOG, imageConstant } from '../global/imageConstant';
 import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { apiKeys, apiTypes } from '../global/apiKeys';
+import makeApiRequest from '../global/apiCall';
 
 function BlogDetails() {
-    const blogId = useParams()
-    console.log(blogId);
+    const { blogId } = useParams()
+    const [blogData, setBlogData] = useState()
+
+    // Get single blog details
+    const getSingleBlogDetails = useCallback(() => {
+        makeApiRequest(apiTypes.GET, `${apiKeys.getSingleBlog}/${blogId}`, null, null, null)
+            .then((response) => {
+                // console.log("🚀 ~ file: BlogDetails.jsx:18 ~ .then ~ response:", response)
+                setBlogData(response.data.blogData)
+            })
+            .catch((error) => {
+                alert(error.response.data.message)
+            })
+    }, [blogId])
+
+    useEffect(() => {
+        getSingleBlogDetails()
+    }, [blogId])
+
+
     return (
         <div>
             <Navbar />
@@ -24,32 +44,18 @@ function BlogDetails() {
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-12 col-xl-10">
-                            <article className="blog-details"><a className="blog-details-thumb" href="#"><img src={require("../images/blog/01.jpg")} alt="01.jpg" /></a>
+                            <article className="blog-details"><a className="blog-details-thumb">
+                                <img src={`${IMAGEBASEURL_BLOG}${blogData?.blogImage}`} alt={blogData?.blogImage} />
+                            </a>
                                 <div className="blog-details-content">
                                     <ul className="blog-details-meta">
-                                        <li><i className="fa-solid fa-calendar-days" /><span>february 02, 2021</span></li>
-                                        <li><i className="fa-solid fa-user"></i><span>Miron mahmud</span></li>
+                                        <li><i className="fa-solid fa-calendar-days" /><span>{blogData?.blogDate}</span></li>
+                                        <li><i className="fa-solid fa-user"></i><span>Admin</span></li>
                                         <li><i className="fa-solid fa-comments"></i><span>25 comments</span></li>
                                         <li><i className="fa-solid fa-square-share-nodes"></i><span>34 share</span></li>
                                     </ul>
-                                    <h2 className="blog-details-title">Adipisicing elit. Earum beatae, eius voluptates lorem ipsum
-                                        dolor sit amet consectetur.</h2>
-                                    <p className="blog-details-desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                        Molestias repellendus laudantium at optio ex, magnam illo ducimus placeat voluptates
-                                        officiis molestiae ratione assumenda dignissimos est id hic veritatis. Aspernatur
-                                        aliquam praesentium officiis pariatur velit nesciunt debitis odio, dolores harum, quidem
-                                        nobis enim. Incidunt quia doloremque ipsam optio repudiandae non ipsa.</p>
-                                    <p className="blog-details-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                        Voluptas est nisi ut eius quod? Libero, labore. Omnis maiores at, incidunt odit commodi,
-                                        possimus voluptas porro sunt beatae laboriosam provident. Id, sit laborum accusantium
-                                        quia ad aut eaque obcaecati eos, <a href="#">adipisci</a>molestias quasi nostrum harum
-                                        nihil, rerum totam doloribus perspiciatis quos reiciendis voluptatibus. Eos numquam
-                                        eaque sed nemo illo optio quos facere, at alias! Doloremque nemo, porro neque magnam
-                                        voluptatem harum at quidem. Porro asperiores facere veritatis consequatur. Minus amet
-                                        error nam laudantium omnis modi molestias, ex eveniet sed non. Veniam quas aspernatur
-                                        quisquam aut quis ea iusto, officia eos sunt vel, voluptatibus incidunt ut eius nesciunt
-                                        perspiciatis modi reiciendis fugit alias autem, dolorum mollitia esse earum? Doloribus
-                                        illum culpa eligendi!</p>
+                                    <h2 className="blog-details-title">{blogData?.blogTitle}</h2>
+                                    <p className="blog-details-desc">{blogData?.blogDescription}</p>
                                     <div className="blog-details-footer">
                                         <ul className="blog-details-share">
                                             <li><span>share:</span></li>
@@ -58,12 +64,6 @@ function BlogDetails() {
                                             <li><a href="#" className="fa-brands fa-linkedin" /></li>
                                             <li><a href="#" className="fa-brands fa-instagram" /></li>
                                             <li><a href="#" className="fa-brands fa-pinterest-p" /></li>
-                                        </ul>
-                                        <ul className="blog-details-tag">
-                                            <li><span>tags:</span></li>
-                                            <li><a href="#">farming</a></li>
-                                            <li><a href="#">organic</a></li>
-                                            <li><a href="#">health</a></li>
                                         </ul>
                                     </div>
                                 </div>

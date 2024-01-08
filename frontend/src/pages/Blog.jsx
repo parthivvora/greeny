@@ -1,12 +1,46 @@
-import React from 'react'
-import { imageConstant } from '../global/imageConstant';
+import React, { useEffect, useState } from 'react'
+import { IMAGEBASEURL_BLOG, imageConstant } from '../global/imageConstant';
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
+import makeApiRequest from '../global/apiCall';
+import { apiKeys, apiTypes } from '../global/apiKeys';
+
+import Pagination from 'react-js-pagination';
 
 function Blog() {
+    const [blogData, setBlogData] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
+    const itemsPerPage = 4;
+
+    // Get all blogs
+    const getBlogsDetails = () => {
+        makeApiRequest(apiTypes.GET, apiKeys.getAllBlogs, null, null, null)
+            .then((response) => {
+                // console.log("🚀 ~ file: Blog.jsx:15 ~ .then ~ response:", response)
+                setBlogData(response.data.blogData)
+                setTotalItems(response.data.blogData.length)
+            })
+            .catch((error) => {
+                console.log("🚀 ~ file: Blog.jsx:19 ~ getBlogsDetails ~ error:", error)
+                alert(error.response.data.message)
+            })
+    }
+
+    // Pagination
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const indexOfFirstResult = (currentPage - 1) * itemsPerPage + 1;
+    const indexOfLastResult = Math.min(currentPage * itemsPerPage, totalItems);
+    const resultsMessage = `Showing ${indexOfFirstResult} - ${indexOfLastResult} of ${totalItems} Results`;
+
+    useEffect(() => {
+        getBlogsDetails()
+    }, [])
     return (
-        <div>
+        <div className='blog-section'>
             <Navbar />
             <section className="inner-section single-banner" style={{ background: `url(${imageConstant.SINGLE_BANNER})`, backgroundPosition: "center", backgroundSize: "cover" }}>
                 <div className="container">
@@ -36,68 +70,47 @@ function Blog() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-md-6 col-lg-6">
-                                    <div className="blog-card">
-                                        <div className="blog-media">
-                                            <a className="blog-img" href="/blog/1"><img src={require("../images/blog/01.jpg")} alt="01.jpg" /></a></div>
-                                        <div className="blog-content">
-                                            <ul className="blog-meta">
-                                                <li><i className="fas fa-user" /><span>admin</span></li>
-                                                <li><i className="fas fa-calendar-alt" /><span>february 02, 2021</span></li>
-                                            </ul>
-                                            <h4 className="blog-title"><a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a></h4>
-                                            <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                            <Link className='blog-btn' to={`/blog/1`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
+                            <div className="row" >
+                                {
+                                    blogData.slice(indexOfFirstResult - 1, indexOfLastResult).map((blogInfo, index) => (
+                                        <div className="col-md-6 col-lg-6" key={index}>
+                                            <div className="blog-card">
+                                                <div className="blog-media">
+                                                    <img src={`${IMAGEBASEURL_BLOG}${blogInfo.blogImage}`} alt={blogInfo.blogImage} className="blog-img" />
+                                                </div>
+                                                <div className="blog-content">
+                                                    <ul className="blog-meta">
+                                                        <li><i className="fas fa-user" /><span>admin</span></li>
+                                                        <li><i className="fas fa-calendar-alt" /><span>{new Date(blogInfo.blogDate).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span></li>
+                                                    </ul>
+                                                    <h4 className="blog-title">{blogInfo.blogTitle}</h4>
+                                                    <p className="blog-desc">{blogInfo.blogDescription}</p>
+                                                    <Link className='blog-btn' to={`/blog/${blogInfo._id}`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-6 col-lg-6">
-                                    <div className="blog-card">
-                                        <div className="blog-media">
-                                            <Link className="blog-img" to={`/blog/2`}><img src={require("../images/blog/02.jpg")} alt="02.jpg" /></Link>
-                                        </div>
-                                        <div className="blog-content">
-                                            <ul className="blog-meta">
-                                                <li><i className="fas fa-user" /><span>admin</span></li>
-                                                <li><i className="fas fa-calendar-alt" /><span>february 02, 2021</span></li>
-                                            </ul>
-                                            <h4 className="blog-title"><a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a></h4>
-                                            <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                            <Link className='blog-btn' to={`/blog/2`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-6 col-lg-6">
-                                    <div className="blog-card">
-                                        <div className="blog-media">
-                                            <Link className="blog-img" to={`/blog/3`}><img src={require("../images/blog/03.jpg")} alt="03.jpg" /></Link>
-                                        </div>
-                                        <div className="blog-content">
-                                            <ul className="blog-meta">
-                                                <li><i className="fas fa-user" /><span>admin</span></li>
-                                                <li><i className="fas fa-calendar-alt" /><span>february 02, 2021</span></li>
-                                            </ul>
-                                            <h4 className="blog-title"><a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a></h4>
-                                            <p className="blog-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ... </p>
-                                            <Link className='blog-btn' to={`/blog/3`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
-                                        </div>
-                                    </div>
-                                </div>
+                                    ))
+                                }
                             </div>
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="bottom-paginate">
-                                        <p className="page-info">Showing 12 of 60 Results</p>
-                                        <ul className="pagination">
-                                            <li className="page-item"><a className="page-link" href="#"><i className="fas fa-long-arrow-alt-left" /></a></li>
-                                            <li className="page-item"><a className="page-link active" href="#">1</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                            <li className="page-item">...</li>
-                                            <li className="page-item"><a className="page-link" href="#">60</a></li>
-                                            <li className="page-item"><a className="page-link" href="#"><i className="fas fa-long-arrow-alt-right" /></a></li>
-                                        </ul>
+                                        <p className="page-info">{resultsMessage}</p>
+                                        <Pagination
+                                            activePage={currentPage}
+                                            itemsCountPerPage={itemsPerPage}
+                                            totalItemsCount={totalItems}
+                                            pageRangeDisplayed={5}
+                                            onChange={handlePageChange}
+                                            itemClass='abc'
+                                            itemClassFirst='first'
+                                            itemClassLast='last'
+                                            itemClassPrev='prev'
+                                            itemClassNext='next'
+                                            prevPageText={false}
+                                            nextPageText={false}
+                                        />
+
                                     </div>
                                 </div>
                             </div>
