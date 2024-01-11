@@ -88,84 +88,84 @@ exports.getSingleBrand = async (req, res) => {
     }
 }
 
-// Update blog details by Admin using blogId
-exports.updateBlog = async (req, res) => {
-    try {
-        const { blogId } = req.params
-        const { blogTitle, blogDescription } = req.body
-        if (req.file) {
-            const { filename } = req.file
-            const updateBlogDetail = {
-                blogTitle: blogTitle,
-                blogDescription: blogDescription,
-                blogDate: Date.now(),
-                blogImage: filename,
-            }
-            await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
-            return res.status(responseStatusCode.SUCCESS).json({
-                status: responseStatusText.SUCCESS,
-                message: "Your blog details is updated successfully...!",
-            })
-        }
-        const updateBlogDetail = {
-            blogTitle: blogTitle,
-            blogDescription: blogDescription,
-            blogDate: Date.now(),
-        }
-        await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
-        return res.status(responseStatusCode.SUCCESS).json({
-            status: responseStatusText.SUCCESS,
-            message: "Your blog details is updated successfully...!",
-        })
-    } catch (error) {
-        console.log("🚀 ~ file: blog.controller.js:123 ~ exports.updateBlog= ~ error:", error)
-        return res.status(responseStatusCode.INTERNAL_SERVER).json({
-            status: responseStatusText.ERROR,
-            message: error.message
-        })
-    }
-}
+// // Update blog details by Admin using blogId
+// exports.updateBlog = async (req, res) => {
+//     try {
+//         const { blogId } = req.params
+//         const { blogTitle, blogDescription } = req.body
+//         if (req.file) {
+//             const { filename } = req.file
+//             const updateBlogDetail = {
+//                 blogTitle: blogTitle,
+//                 blogDescription: blogDescription,
+//                 blogDate: Date.now(),
+//                 blogImage: filename,
+//             }
+//             await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
+//             return res.status(responseStatusCode.SUCCESS).json({
+//                 status: responseStatusText.SUCCESS,
+//                 message: "Your blog details is updated successfully...!",
+//             })
+//         }
+//         const updateBlogDetail = {
+//             blogTitle: blogTitle,
+//             blogDescription: blogDescription,
+//             blogDate: Date.now(),
+//         }
+//         await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
+//         return res.status(responseStatusCode.SUCCESS).json({
+//             status: responseStatusText.SUCCESS,
+//             message: "Your blog details is updated successfully...!",
+//         })
+//     } catch (error) {
+//         console.log("🚀 ~ file: blog.controller.js:123 ~ exports.updateBlog= ~ error:", error)
+//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
+//             status: responseStatusText.ERROR,
+//             message: error.message
+//         })
+//     }
+// }
 
-// Update blog status by Admin using blogId (if status false then don't show in Frontend)
-exports.updateBlogStatus = async (req, res) => {
-    try {
-        const { blogId } = req.params
-        const { status } = req.body
-        await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: { blogStatus: status } }, { new: true })
-        return res.status(responseStatusCode.SUCCESS).json({
-            status: responseStatusText.SUCCESS,
-            message: "Your blog status is updated successfully...!",
-        })
-    } catch (error) {
-        console.log("🚀 ~ exports.updateBlogStatus= ~ error:", error)
-        return res.status(responseStatusCode.INTERNAL_SERVER).json({
-            status: responseStatusText.ERROR,
-            message: error.message
-        })
-    }
-}
+// // Update blog status by Admin using blogId (if status false then don't show in Frontend)
+// exports.updateBlogStatus = async (req, res) => {
+//     try {
+//         const { blogId } = req.params
+//         const { status } = req.body
+//         await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: { blogStatus: status } }, { new: true })
+//         return res.status(responseStatusCode.SUCCESS).json({
+//             status: responseStatusText.SUCCESS,
+//             message: "Your blog status is updated successfully...!",
+//         })
+//     } catch (error) {
+//         console.log("🚀 ~ exports.updateBlogStatus= ~ error:", error)
+//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
+//             status: responseStatusText.ERROR,
+//             message: error.message
+//         })
+//     }
+// }
 
-// Delete blog by Admin using blogId
-exports.deleteBlog = async (req, res) => {
-    try {
-        const { blogId } = req.params
-        const isBlogAvailable = await brandsModel.findOne({ _id: new mongoose.Types.ObjectId(blogId) })
-        if (isBlogAvailable) {
-            await brandsModel.deleteOne({ _id: new mongoose.Types.ObjectId(blogId) })
-            return res.status(responseStatusCode.SUCCESS).json({
-                status: responseStatusText.SUCCESS,
-                message: "Your blog is deleted successfully...!",
-            })
-        }
-        return res.status(responseStatusCode.NOT_FOUND).json({
-            status: responseStatusText.ERROR,
-            message: "No blog found of your choice for delete...!",
-        })
-    } catch (error) {
-        console.log("🚀 ~ exports.deleteBlog ~ error:", error)
-        return res.status(responseStatusCode.INTERNAL_SERVER).json({
-            status: responseStatusText.ERROR,
-            message: error.message
-        })
-    }
-}
+// // Delete blog by Admin using blogId
+// exports.deleteBlog = async (req, res) => {
+//     try {
+//         const { blogId } = req.params
+//         const isBlogAvailable = await brandsModel.findOne({ _id: new mongoose.Types.ObjectId(blogId) })
+//         if (isBlogAvailable) {
+//             await brandsModel.deleteOne({ _id: new mongoose.Types.ObjectId(blogId) })
+//             return res.status(responseStatusCode.SUCCESS).json({
+//                 status: responseStatusText.SUCCESS,
+//                 message: "Your blog is deleted successfully...!",
+//             })
+//         }
+//         return res.status(responseStatusCode.NOT_FOUND).json({
+//             status: responseStatusText.ERROR,
+//             message: "No blog found of your choice for delete...!",
+//         })
+//     } catch (error) {
+//         console.log("🚀 ~ exports.deleteBlog ~ error:", error)
+//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
+//             status: responseStatusText.ERROR,
+//             message: error.message
+//         })
+//     }
+// }

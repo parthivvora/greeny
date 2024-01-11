@@ -41,28 +41,28 @@ exports.addBanners = async (req, res) => {
     }
 }
 
-// // Get all brands for users
-// exports.getAllBrands = async (req, res) => {
-//     try {
-//         const brandsData = await bannerModel.find()
-//         if (brandsData.length > 0) {
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 brandsData
-//             })
-//         }
-//         return res.status(responseStatusCode.NOT_FOUND).json({
-//             status: responseStatusText.ERROR,
-//             message: "No brands data here...!"
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.getAllBrands= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Get all banners data
+exports.getAllBannerData = async (req, res) => {
+    try {
+        const bannerData = await bannerModel.find()
+        if (bannerData.length > 0) {
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                bannerData
+            })
+        }
+        return res.status(responseStatusCode.NOT_FOUND).json({
+            status: responseStatusText.ERROR,
+            message: "No banner data here...!"
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.getAllBannerData= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
 
 // // Get single brand details using brandId
 // exports.getSingleBrand = async (req, res) => {

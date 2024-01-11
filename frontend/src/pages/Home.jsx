@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import makeApiRequest from '../global/apiCall';
 import { apiKeys, apiTypes } from '../global/apiKeys';
-import { IMAGEBASEURL_BRANDS } from '../global/imageConstant';
+import { IMAGEBASEURL_BANNERS, IMAGEBASEURL_BRANDS } from '../global/imageConstant';
 
 function Home() {
     var bannerPartSliderOptions = {
@@ -40,7 +40,21 @@ function Home() {
         centerPadding: "30px",
     }
 
+    const [bannerData, setBannerData] = useState([])
     const [brandData, setBrandData] = useState([])
+
+    // Get banner data for user
+    const getAllBbannerData = () => {
+        makeApiRequest(apiTypes.GET, apiKeys.getAllBanners, null, null, null)
+            .then((resoponse) => {
+                // console.log("🚀 ~ .then ~ resoponse:", resoponse)
+                setBannerData(resoponse.data.bannerData)
+            })
+            .catch((error) => {
+                console.log("🚀 ~ getAllBrandsData ~ error:", error.response.data.message)
+                alert(error.response.data.message)
+            })
+    }
 
     // Get all brands for user
     const getAllBrandsData = () => {
@@ -56,6 +70,7 @@ function Home() {
     }
 
     useEffect(() => {
+        getAllBbannerData()
         getAllBrandsData()
     }, [])
     return (
@@ -63,44 +78,29 @@ function Home() {
             <Navbar />
             <section className="home-index-slider slider-arrow slider-dots">
                 <Slider {...bannerPartSliderOptions}>
-                    <div className="banner-part banner-1">
-                        <div className="container">
-                            <div className="row align-items-center">
-                                <div className="col-md-6 col-lg-6">
-                                    <div className="banner-content">
-                                        <h1>free home delivery within 24 hours now.</h1>
-                                        <p>Lorem ipsum dolor consectetur adipisicing elit modi consequatur eaque expedita porro necessitatibus eveniet voluptatum quis pariatur Laboriosam molestiae architecto excepturi</p>
-                                        <div className="banner-btn">
-                                            <a className="btn btn-inline" href="shop-4column.html"><i className="fas fa-shopping-basket" /><span>shop now</span></a>
-                                            <a className="btn btn-outline" href="offer.html"><i className="icofont-sale-discount" /><span>get offer</span></a>
+                    {
+                        bannerData.map((item, index) => (
+                            <div className="banner-part banner-1" key={index}>
+                                <div className="container">
+                                    <div className="row align-items-center">
+                                        <div className="col-md-6 col-lg-6">
+                                            <div className="banner-content">
+                                                <h1>{item.bannerTitle}</h1>
+                                                <p>{item.bannerDescription}</p>
+                                                <div className="banner-btn">
+                                                    <a className="btn btn-inline" href="shop-4column.html"><i className="fas fa-shopping-basket" /><span>shop now</span></a>
+                                                    <a className="btn btn-outline" href="offer.html"><i className="icofont-sale-discount" /><span>get offer</span></a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-6 col-lg-6">
-                                    <div className="banner-img"><img src={require("../images/home/index/01.png")} alt="01.png" /></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="banner-part banner-2">
-                        <div className="container">
-                            <div className="row align-items-center">
-                                <div className="col-md-6 col-lg-6">
-                                    <div className="banner-img"><img src={require("../images/home/index/02.png")} alt="02.png" /></div>
-                                </div>
-                                <div className="col-md-6 col-lg-6">
-                                    <div className="banner-content">
-                                        <h1>free home delivery within 24 hours now.</h1>
-                                        <p>Lorem ipsum dolor consectetur adipisicing elit modi consequatur eaque expedita porro necessitatibus eveniet voluptatum quis pariatur Laboriosam molestiae architecto excepturi</p>
-                                        <div className="banner-btn">
-                                            <a className="btn btn-inline" href="shop-4column.html"><i className="fas fa-shopping-basket" /><span>shop now</span></a>
-                                            <a className="btn btn-outline" href="offer.html"><i className="icofont-sale-discount" /><span>get offer</span></a>
+                                        <div className="col-md-6 col-lg-6">
+                                            <div className="banner-img"><img src={`${IMAGEBASEURL_BANNERS}${item.bannerImage}`} alt={item.bannerImage} /></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        ))
+                    }
                 </Slider>
             </section>
             <section className="section niche-part">
@@ -219,7 +219,7 @@ function Home() {
                                 <Slider {...brandSliderOptions}>
                                     {
                                         brandData.map((item, index) => (
-                                            <div className="brand-wrap">
+                                            <div className="brand-wrap" key={index}>
                                                 <div className="brand-media"><img src={`${IMAGEBASEURL_BRANDS}${item.brandImage}`} alt={item.brandImage} />
                                                     <div className="brand-overlay"><a href="brand-single.html"><i className="fas fa-link" /></a></div>
                                                 </div>
