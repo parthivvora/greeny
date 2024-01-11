@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Privacy from "./pages/Privacy";
 import ChangePassword from "./pages/ChangePassword";
+import BrandList from "./pages/BrandList";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/faq" element={<Faq />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/brand" element={<BrandList />} />
       </Routes>
     </div>
   );

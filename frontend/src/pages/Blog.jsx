@@ -76,16 +76,16 @@ function Blog() {
                                         <div className="col-md-6 col-lg-6" key={index}>
                                             <div className="blog-card">
                                                 <div className="blog-media">
-                                                    <img src={`${IMAGEBASEURL_BLOG}${blogInfo.blogImage}`} alt={blogInfo.blogImage} className="blog-img" />
+                                                    <img src={`${IMAGEBASEURL_BLOG}${blogInfo?.blogImage}`} alt={blogInfo?.blogImage} className="blog-img" />
                                                 </div>
                                                 <div className="blog-content">
                                                     <ul className="blog-meta">
                                                         <li><i className="fas fa-user" /><span>admin</span></li>
-                                                        <li><i className="fas fa-calendar-alt" /><span>{new Date(blogInfo.blogDate).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span></li>
+                                                        <li><i className="fas fa-calendar-alt" /><span>{new Date(blogInfo?.blogDate).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span></li>
                                                     </ul>
-                                                    <h4 className="blog-title">{blogInfo.blogTitle}</h4>
-                                                    <p className="blog-desc">{blogInfo.blogDescription}</p>
-                                                    <Link className='blog-btn' to={`/blog/${blogInfo._id}`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
+                                                    <h4 className="blog-title">{blogInfo?.blogTitle}</h4>
+                                                    <p className="blog-desc">{blogInfo?.blogDescription}</p>
+                                                    <Link className='blog-btn' to={`/blog/${blogInfo?._id}`}><span>read more</span><i className="fa-solid fa-arrow-right" /></Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -110,7 +110,6 @@ function Blog() {
                                             prevPageText={false}
                                             nextPageText={false}
                                         />
-
                                     </div>
                                 </div>
                             </div>

@@ -7,8 +7,8 @@ const responseStatusCode = {
 }
 
 const responseStatusText = {
-    SUCCESS: "success",
-    ERROR: "error",
+    SUCCESS: "Success",
+    ERROR: "Error",
 }
 
 module.exports = { responseStatusCode, responseStatusText }

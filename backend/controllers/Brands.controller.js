@@ -1,13 +1,13 @@
 const { default: mongoose } = require("mongoose")
 const { responseStatusText, responseStatusCode } = require("../helper/responseHelper")
-const blogModel = require("../models/blog")
-const { createBlogValidation } = require("../validation/blog.validation")
+const brandsModel = require("../models/brands")
 const fs = require("fs")
+const { createBrandValidation } = require("../validation/brand.validation")
 
-// Create blog by Admin
-exports.createBlog = async (req, res) => {
+// Add brands by Admin
+exports.addBrands = async (req, res) => {
     try {
-        const { error, value } = createBlogValidation.validate(req.body)
+        const { error, value } = createBrandValidation.validate(req.body)
         if (error) {
             fs.unlinkSync(req.file.path)
             return res.status(responseStatusCode.FORBIDDEN).json({
@@ -18,21 +18,21 @@ exports.createBlog = async (req, res) => {
         if (!req.file) {
             return res.status(responseStatusCode.FORBIDDEN).json({
                 status: responseStatusText.ERROR,
-                message: "Please, upload blog image...!"
+                message: "Please, upload brand logo...!"
             })
         }
-        const newBlogDate = {
-            blogTitle: value.blogTitle,
-            blogDescription: value.blogDescription,
-            blogImage: req.file.filename,
+        const newBrandData = {
+            brandName: value.brandName,
+            totalItems: value.totalItems,
+            brandImage: req.file.filename,
         }
-        blogModel.create(newBlogDate)
+        brandsModel.create(newBrandData)
         return res.status(responseStatusCode.SUCCESS).json({
             status: responseStatusText.SUCCESS,
-            message: "Your blog is add successfully...!"
+            message: "Your brand data add successfully...!"
         })
     } catch (error) {
-        console.log("🚀 ~ file: blog.controller.js:34 ~ exports.createBlog= ~ error:", error)
+        console.log("🚀 ~ exports.addBrands= ~ error:", error)
         fs.unlinkSync(req.file.path)
         return res.status(responseStatusCode.INTERNAL_SERVER).json({
             status: responseStatusText.ERROR,
@@ -41,22 +41,22 @@ exports.createBlog = async (req, res) => {
     }
 }
 
-// Get all blogs using for users
-exports.getAllBlogs = async (req, res) => {
+// Get all brands for users
+exports.getAllBrands = async (req, res) => {
     try {
-        const blogData = await blogModel.find()
-        if (blogData.length > 0) {
+        const brandsData = await brandsModel.find()
+        if (brandsData.length > 0) {
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
-                blogData
+                brandsData
             })
         }
-        return res.status(responseStatusCode.FORBIDDEN).json({
+        return res.status(responseStatusCode.NOT_FOUND).json({
             status: responseStatusText.ERROR,
-            message: "No blog data here...!"
+            message: "No brands data here...!"
         })
     } catch (error) {
-        console.log("🚀 ~ file: blog.controller.js:58 ~ exports.getAllBlog= ~ error:", error)
+        console.log("🚀 ~ exports.getAllBrands= ~ error:", error)
         return res.status(responseStatusCode.INTERNAL_SERVER).json({
             status: responseStatusText.ERROR,
             message: error.message
@@ -64,23 +64,23 @@ exports.getAllBlogs = async (req, res) => {
     }
 }
 
-// Get single blog details using blogId
-exports.getSingleBlog = async (req, res) => {
+// Get single brand details using brandId
+exports.getSingleBrand = async (req, res) => {
     try {
-        const { blogId } = req.params
-        const blogData = await blogModel.findOne({ _id: new mongoose.Types.ObjectId(blogId) })
-        if (blogData) {
+        const { brandId } = req.params
+        const brandsData = await brandsModel.findOne({ _id: new mongoose.Types.ObjectId(brandId) })
+        if (brandsData) {
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
-                blogData
+                brandsData
             })
         }
         return res.status(responseStatusCode.FORBIDDEN).json({
             status: responseStatusText.ERROR,
-            message: "No blog data here...!"
+            message: "No brand data found of your choice...!"
         })
     } catch (error) {
-        console.log("🚀 ~ file: blog.controller.js:83 ~ exports.getSingleBlog= ~ error:", error)
+        console.log("🚀 ~ exports.getSingleBrand= ~ error:", error)
         return res.status(responseStatusCode.INTERNAL_SERVER).json({
             status: responseStatusText.ERROR,
             message: error.message
@@ -101,7 +101,7 @@ exports.updateBlog = async (req, res) => {
                 blogDate: Date.now(),
                 blogImage: filename,
             }
-            await blogModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
+            await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
                 message: "Your blog details is updated successfully...!",
@@ -112,7 +112,7 @@ exports.updateBlog = async (req, res) => {
             blogDescription: blogDescription,
             blogDate: Date.now(),
         }
-        await blogModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
+        await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
         return res.status(responseStatusCode.SUCCESS).json({
             status: responseStatusText.SUCCESS,
             message: "Your blog details is updated successfully...!",
@@ -131,7 +131,7 @@ exports.updateBlogStatus = async (req, res) => {
     try {
         const { blogId } = req.params
         const { status } = req.body
-        await blogModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: { blogStatus: status } }, { new: true })
+        await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: { blogStatus: status } }, { new: true })
         return res.status(responseStatusCode.SUCCESS).json({
             status: responseStatusText.SUCCESS,
             message: "Your blog status is updated successfully...!",
@@ -149,9 +149,9 @@ exports.updateBlogStatus = async (req, res) => {
 exports.deleteBlog = async (req, res) => {
     try {
         const { blogId } = req.params
-        const isBlogAvailable = await blogModel.findOne({ _id: new mongoose.Types.ObjectId(blogId) })
+        const isBlogAvailable = await brandsModel.findOne({ _id: new mongoose.Types.ObjectId(blogId) })
         if (isBlogAvailable) {
-            await blogModel.deleteOne({ _id: new mongoose.Types.ObjectId(blogId) })
+            await brandsModel.deleteOne({ _id: new mongoose.Types.ObjectId(blogId) })
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
                 message: "Your blog is deleted successfully...!",

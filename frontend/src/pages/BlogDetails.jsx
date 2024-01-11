@@ -49,7 +49,7 @@ function BlogDetails() {
                             </a>
                                 <div className="blog-details-content">
                                     <ul className="blog-details-meta">
-                                        <li><i className="fa-solid fa-calendar-days" /><span>{blogData?.blogDate}</span></li>
+                                        <li><i className="fa-solid fa-calendar-days" /><span>{new Date(blogData?.blogDate).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span></li>
                                         <li><i className="fa-solid fa-user"></i><span>Admin</span></li>
                                         <li><i className="fa-solid fa-comments"></i><span>25 comments</span></li>
                                         <li><i className="fa-solid fa-square-share-nodes"></i><span>34 share</span></li>
