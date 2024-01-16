@@ -64,67 +64,43 @@ exports.getAllBannerData = async (req, res) => {
     }
 }
 
-// // Get single brand details using brandId
-// exports.getSingleBrand = async (req, res) => {
-//     try {
-//         const { brandId } = req.params
-//         const brandsData = await bannerModel.findOne({ _id: new mongoose.Types.ObjectId(brandId) })
-//         if (brandsData) {
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 brandsData
-//             })
-//         }
-//         return res.status(responseStatusCode.FORBIDDEN).json({
-//             status: responseStatusText.ERROR,
-//             message: "No brand data found of your choice...!"
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.getSingleBrand= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
-
-// // Update blog details by Admin using blogId
-// exports.updateBlog = async (req, res) => {
-//     try {
-//         const { blogId } = req.params
-//         const { blogTitle, blogDescription } = req.body
-//         if (req.file) {
-//             const { filename } = req.file
-//             const updateBlogDetail = {
-//                 blogTitle: blogTitle,
-//                 blogDescription: blogDescription,
-//                 blogDate: Date.now(),
-//                 blogImage: filename,
-//             }
-//             await bannerModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 message: "Your blog details is updated successfully...!",
-//             })
-//         }
-//         const updateBlogDetail = {
-//             blogTitle: blogTitle,
-//             blogDescription: blogDescription,
-//             blogDate: Date.now(),
-//         }
-//         await bannerModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: updateBlogDetail }, { new: true })
-//         return res.status(responseStatusCode.SUCCESS).json({
-//             status: responseStatusText.SUCCESS,
-//             message: "Your blog details is updated successfully...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ file: blog.controller.js:123 ~ exports.updateBlog= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Update banners details by Admin using bannerId
+exports.updateBanner = async (req, res) => {
+    try {
+        const { bannerId } = req.params
+        const { bannerTitle, bannerDescription } = req.body
+        if (req.file) {
+            const { filename } = req.file
+            const updateBannersDetail = {
+                bannerTitle: bannerTitle,
+                bannerDescription: bannerDescription,
+                blogDate: Date.now(),
+                bannerImage: filename,
+            }
+            await bannerModel.updateOne({ _id: new mongoose.Types.ObjectId(bannerId) }, { $set: updateBannersDetail }, { new: true })
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                message: "Your banners details is updated successfully...!",
+            })
+        }
+        const updateBannersDetail = {
+            bannerTitle: bannerTitle,
+            bannerDescription: bannerDescription,
+            blogDate: Date.now(),
+        }
+        await bannerModel.updateOne({ _id: new mongoose.Types.ObjectId(bannerId) }, { $set: updateBannersDetail }, { new: true })
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
+            message: "Your banners details is updated successfully...!",
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.updateBanner= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
 
 // // Update blog status by Admin using blogId (if status false then don't show in Frontend)
 // exports.updateBlogStatus = async (req, res) => {
@@ -145,27 +121,27 @@ exports.getAllBannerData = async (req, res) => {
 //     }
 // }
 
-// // Delete blog by Admin using blogId
-// exports.deleteBlog = async (req, res) => {
-//     try {
-//         const { blogId } = req.params
-//         const isBlogAvailable = await bannerModel.findOne({ _id: new mongoose.Types.ObjectId(blogId) })
-//         if (isBlogAvailable) {
-//             await bannerModel.deleteOne({ _id: new mongoose.Types.ObjectId(blogId) })
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 message: "Your blog is deleted successfully...!",
-//             })
-//         }
-//         return res.status(responseStatusCode.NOT_FOUND).json({
-//             status: responseStatusText.ERROR,
-//             message: "No blog found of your choice for delete...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.deleteBlog ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Delete blog by Admin using blogId
+exports.deleteBanner = async (req, res) => {
+    try {
+        const { bannerId } = req.params
+        const isBannerAvailable = await bannerModel.findOne({ _id: new mongoose.Types.ObjectId(bannerId) })
+        if (isBannerAvailable) {
+            await bannerModel.deleteOne({ _id: new mongoose.Types.ObjectId(bannerId) })
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                message: "Your banner is deleted successfully...!",
+            })
+        }
+        return res.status(responseStatusCode.NOT_FOUND).json({
+            status: responseStatusText.ERROR,
+            message: "No banner found of your choice for delete...!",
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.deleteBanner ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}

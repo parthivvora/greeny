@@ -3,13 +3,13 @@ const { responseStatusCode, responseStatusText } = require("../helper/responseHe
 
 exports.userAuth = (req, res, next) => {
     try {
-        if (!req.headers.userauth || req.headers.userauth.split(" ")[0] != "Bearer") {
+        if (!req.headers.authorization || req.headers.authorization.split(" ")[0] != "Bearer") {
             return res.status(responseStatusCode.UNAUTHORIZED).json({
                 status: responseStatusText.ERROR,
                 message: "Please, provide token...!"
             })
         }
-        jwt.verify(req.headers.userauth.split(" ")[1], process.env.JWT_SECRET, (err, payload) => {
+        jwt.verify(req.headers.authorization.split(" ")[1], process.env.JWT_SECRET, (err, payload) => {
             if (err) {
                 return res.status(responseStatusCode.FORBIDDEN).json({
                     status: responseStatusText.ERROR,

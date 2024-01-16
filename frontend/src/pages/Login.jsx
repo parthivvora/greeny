@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import makeApiRequest from '../global/apiCall'
 import { apiKeys, apiTypes } from '../global/apiKeys'
 import { useNavigate } from 'react-router-dom'
+// import { GoogleLogin } from '@react-oauth/google';
+
+// const clientId = "22953397858-m9ismsmgttiiaujsabh6442sdb5aj5ce.apps.googleusercontent.com"
+
 
 function Login() {
     const navigate = useNavigate()
@@ -24,6 +28,11 @@ function Login() {
                 alert(error.response.data.message)
             })
     }
+
+    // const login = () => {
+    //     window.open("http://localhost:7777/auth/callback", "_self")
+    // }
+
     return (
         <section className="user-form-part">
             <div className="container">
@@ -63,8 +72,12 @@ function Login() {
                     </div>
                 </div>
             </div>
+
+            {/* <button onClick={login}>Login</button> */}
+
         </section>
     )
 }
 
 export default Login
+// 22953397858-m9ismsmgttiiaujsabh6442sdb5aj5ce.apps.googleusercontent.com

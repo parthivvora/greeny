@@ -5,7 +5,10 @@ const cors = require("cors");
 const path = require("path");
 
 app.use(express.json())
-app.use(cors({ origin: "*", credentials: true }))
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "http://192.168.29.53:3000"],
+}))
 
 app.use("/api", require("./routes/index"))
 

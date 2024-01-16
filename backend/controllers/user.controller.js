@@ -8,6 +8,7 @@ const fs = require("fs")
 // User register
 exports.userRegister = async (req, res) => {
     try {
+        console.log("🚀 ~ exports.userRegister= ~ req.body:", req.body)
         const { error, value } = userRegisterValidation.validate(req.body)
         if (error) {
             return res.status(responseStatusCode.FORBIDDEN).json({
