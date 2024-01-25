@@ -9,7 +9,7 @@ function Cart() {
             <Navbar />
             <div className="modal fade" id="product-view">
                 <div className="modal-dialog">
-                    <div className="modal-content"><button className="modal-close icofont-close" data-bs-dismiss="modal" ><i class="fa-solid fa-xmark"></i></button>
+                    <div className="modal-content"><button className="modal-close icofont-close" data-bs-dismiss="modal" ><i className="fa-solid fa-xmark"></i></button>
                         <div className="product-view">
                             <div className="row">
                                 <div className="col-md-6 col-lg-6">
@@ -35,17 +35,17 @@ function Cart() {
                                             <a href="product-video.html">(3 reviews)</a>
                                         </div>
                                         <h3 className="view-price"><del>$38.00</del><span>$24.00<small>/per kilo</small></span></h3>
-                                        <p className="view-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit non tempora
-                                            magni repudiandae sint suscipit tempore quis maxime explicabo veniam eos
-                                            reprehenderit fuga</p>
-                                        <div className="view-list-group"><label className="view-list-title">tags:</label>
+                                        <p className="view-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit non tempora magni repudiandae sint suscipit tempore quis maxime explicabo veniam eos reprehenderit fuga</p>
+                                        <div className="view-list-group">
+                                            <label className="view-list-title">tags:</label>
                                             <ul className="view-tag-list">
                                                 <li><a href="#">organic</a></li>
                                                 <li><a href="#">vegetable</a></li>
                                                 <li><a href="#">chilis</a></li>
                                             </ul>
                                         </div>
-                                        <div className="view-list-group"><label className="view-list-title">Share:</label>
+                                        <div className="view-list-group">
+                                            <label className="view-list-title">Share:</label>
                                             <ul className="view-share-list">
                                                 <li><a href="#" className="fa-brands fa-facebook-f" title="Facebook" /></li>
                                                 <li><a href="#" className="fa-brands fa-twitter" title="Twitter" /></li>
@@ -74,9 +74,7 @@ function Cart() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="account-card">
-                                <div className="account-title">
-                                    <h4>Your products</h4>
-                                </div>
+                                <div className="account-title"><h4>Your products</h4></div>
                                 <div className="account-content">
                                     <div className="table-scroll">
                                         <table className="table-list">
@@ -93,22 +91,12 @@ function Cart() {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td className="table-serial">
-                                                        <h6>01</h6>
-                                                    </td>
+                                                    <td className="table-serial"><h6>01</h6></td>
                                                     <td className="table-image"><img src="images/product/01.jpg" alt="product" /></td>
-                                                    <td className="table-name">
-                                                        <h6>product name</h6>
-                                                    </td>
-                                                    <td className="table-price">
-                                                        <h6>$19<small>/kilo</small></h6>
-                                                    </td>
-                                                    <td className="table-brand">
-                                                        <h6>Fresh Company</h6>
-                                                    </td>
-                                                    <td className="table-quantity">
-                                                        <h6>3</h6>
-                                                    </td>
+                                                    <td className="table-name"><h6>product name</h6></td>
+                                                    <td className="table-price"><h6>$19<small>/kilo</small></h6></td>
+                                                    <td className="table-brand"><h6>Fresh Company</h6></td>
+                                                    <td className="table-quantity"><h6>3</h6></td>
                                                     <td className="table-action">
                                                         <a className="view" href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#product-view"><i className="fas fa-eye" /></a>
                                                         <a className="trash cursor-pointer" title="Remove cart"><i className="fa-solid fa-trash" /></a>

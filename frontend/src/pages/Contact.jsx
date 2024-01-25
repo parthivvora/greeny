@@ -20,19 +20,19 @@ function Contact() {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6 col-lg-4">
-                            <div className="contact-card"><i class="fa-solid fa-location-dot"></i>
+                            <div className="contact-card"><i className="fa-solid fa-location-dot"></i>
                                 <h4>head office</h4>
                                 <p>1Hd- 50, 010 Avenue, NY 90001 United States</p>
                             </div>
                         </div>
                         <div className="col-md-6 col-lg-4">
-                            <div className="contact-card active"><i class="fa-solid fa-phone"></i>
+                            <div className="contact-card active"><i className="fa-solid fa-phone"></i>
                                 <h4>phone number</h4>
                                 <p><a href="#">009-215-5596 <span>(toll free)</span></a><a href="#">009-215-5595</a></p>
                             </div>
                         </div>
                         <div className="col-md-6 col-lg-4">
-                            <div className="contact-card"><i class="fa-solid fa-envelope"></i>
+                            <div className="contact-card"><i className="fa-solid fa-envelope"></i>
                                 <h4>Support mail</h4>
                                 <p><a href="#">contact@example.com</a><a href="#">info@example.com</a></p>
                             </div>
@@ -46,16 +46,16 @@ function Contact() {
                             <form className="contact-form">
                                 <h4>Drop Your Thoughts</h4>
                                 <div className="form-group">
-                                    <div className="form-input-group"><input className="form-control" type="text" placeholder="Your Name" /><i class="fa-solid fa-user"></i></div>
+                                    <div className="form-input-group"><input className="form-control" type="text" placeholder="Your Name" /><i className="fa-solid fa-user"></i></div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="form-input-group"><input className="form-control" type="text" placeholder="Your Email" /><i class="fa-solid fa-envelope"></i></div>
+                                    <div className="form-input-group"><input className="form-control" type="text" placeholder="Your Email" /><i className="fa-solid fa-envelope"></i></div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="form-input-group"><input className="form-control" type="text" placeholder="Your Subject" /><i class="fa-solid fa-bookmark"></i></div>
+                                    <div className="form-input-group"><input className="form-control" type="text" placeholder="Your Subject" /><i className="fa-solid fa-bookmark"></i></div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="form-input-group"><textarea className="form-control" placeholder="Your Message" defaultValue={""} /><i class="fa-solid fa-paragraph"></i></div>
+                                    <div className="form-input-group"><textarea className="form-control" placeholder="Your Message" defaultValue={""} /><i className="fa-solid fa-paragraph"></i></div>
                                 </div>
                                 <button type="submit" className="form-btn-group"><i className="fas fa-envelope" /><span>send message</span></button>
                             </form>
