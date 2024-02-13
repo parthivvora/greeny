@@ -34,6 +34,13 @@ const productSchema = new mongoose.Schema({
     productStatus: {
         type: String,
         enum: ["outOfStock", "inStock"]
+    },
+    categoryId: {
+        type: mongoose.Schema.Types.ObjectId
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 })
 

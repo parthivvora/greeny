@@ -4,7 +4,7 @@ const productModel = require("../models/product")
 const fs = require("fs")
 const { addProductValidation } = require("../validation/product.validation.js.validation")
 
-// Add banners by Admin
+// Add products by Admin
 exports.addProducts = async (req, res) => {
     try {
         const { error, value } = addProductValidation.validate(req.body)
@@ -32,7 +32,8 @@ exports.addProducts = async (req, res) => {
             productProperties: value.productProperties,
             productImage: req.file.filename,
             productTags: value.productTags,
-            productStatus: value.productStatus
+            productStatus: value.productStatus,
+            categoryId: value.categoryId
         }
         const productData = await productModel.create(newProductData)
         return res.status(responseStatusCode.SUCCESS).json({
@@ -50,107 +51,99 @@ exports.addProducts = async (req, res) => {
     }
 }
 
-// Get all banners data
-// exports.getAllBannerData = async (req, res) => {
-//     try {
-//         const bannerData = await productModel.find()
-//         if (bannerData.length > 0) {
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 bannerData
-//             })
-//         }
-//         return res.status(responseStatusCode.NOT_FOUND).json({
-//             status: responseStatusText.ERROR,
-//             message: "No banner data here...!"
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.getAllBannerData= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Get all product data
+exports.getAllProductData = async (req, res) => {
+    try {
+        const productData = await productModel.find().select("-__v")
+        if (productData.length > 0) {
+            var row = ""
+            Object.keys(productData).forEach((key) => {
+                row = productData[key];
+                row.productImage = `${process.env.IMAGE_URL}/products/` + row.productImage;
+            });
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                productData
+            })
+        }
+        return res.status(responseStatusCode.NOT_FOUND).json({
+            status: responseStatusText.ERROR,
+            message: "No product data here...!"
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.getAllProductData= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
 
-// Update banners details by Admin using bannerId
-// exports.updateBanner = async (req, res) => {
-//     try {
-//         const { bannerId } = req.params
-//         const { bannerTitle, bannerDescription } = req.body
-//         if (req.file) {
-//             const { filename } = req.file
-//             const updateBannersDetail = {
-//                 bannerTitle: bannerTitle,
-//                 bannerDescription: bannerDescription,
-//                 blogDate: Date.now(),
-//                 bannerImage: filename,
-//             }
-//             await productModel.updateOne({ _id: new mongoose.Types.ObjectId(bannerId) }, { $set: updateBannersDetail }, { new: true })
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 message: "Your banners details is updated successfully...!",
-//             })
-//         }
-//         const updateBannersDetail = {
-//             bannerTitle: bannerTitle,
-//             bannerDescription: bannerDescription,
-//             blogDate: Date.now(),
-//         }
-//         await productModel.updateOne({ _id: new mongoose.Types.ObjectId(bannerId) }, { $set: updateBannersDetail }, { new: true })
-//         return res.status(responseStatusCode.SUCCESS).json({
-//             status: responseStatusText.SUCCESS,
-//             message: "Your banners details is updated successfully...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.updateBanner= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Update product details by Admin using productId
+exports.updateProduct = async (req, res) => {
+    try {
+        const { productId } = req.params
+        const { productName, productBrand, productPrice, productMeasurement, productDescription, productWeight, productStyle, productProperties, productStatus } = req.body
+        if (req.file) {
+            const { filename } = req.file
+            const updateProductDetail = {
+                productName: productName,
+                productBrand: productBrand,
+                productPrice: productPrice,
+                productMeasurement: productMeasurement,
+                productDescription: productDescription,
+                productWeight: productWeight,
+                productStyle: productStyle,
+                productProperties: productProperties,
+                productStatus: productStatus,
+                productImage: filename,
+            }
+            await productModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: updateProductDetail }, { new: true })
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                message: "Your product details is updated successfully...!",
+            })
+        }
+        const updateProductDetail = {
+            productName: productName,
+            productBrand: productBrand,
+            productPrice: productPrice,
+            productMeasurement: productMeasurement,
+            productDescription: productDescription,
+            productWeight: productWeight,
+            productStyle: productStyle,
+            productProperties: productProperties,
+            productStatus: productStatus,
+        }
+        await productModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: updateProductDetail }, { new: true })
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
+            message: "Your product details is updated successfully...!",
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.updateProduct= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
 
-// // Update blog status by Admin using blogId (if status false then don't show in Frontend)
-// exports.updateBlogStatus = async (req, res) => {
-//     try {
-//         const { blogId } = req.params
-//         const { status } = req.body
-//         await productModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: { blogStatus: status } }, { new: true })
-//         return res.status(responseStatusCode.SUCCESS).json({
-//             status: responseStatusText.SUCCESS,
-//             message: "Your blog status is updated successfully...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.updateBlogStatus= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
-
-// // Delete blog by Admin using blogId
-// exports.deleteBanner = async (req, res) => {
-//     try {
-//         const { bannerId } = req.params
-//         const isBannerAvailable = await productModel.findOne({ _id: new mongoose.Types.ObjectId(bannerId) })
-//         if (isBannerAvailable) {
-//             await productModel.deleteOne({ _id: new mongoose.Types.ObjectId(bannerId) })
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 message: "Your banner is deleted successfully...!",
-//             })
-//         }
-//         return res.status(responseStatusCode.NOT_FOUND).json({
-//             status: responseStatusText.ERROR,
-//             message: "No banner found of your choice for delete...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.deleteBanner ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Update product status by Admin using productId (if status false then don't show in Frontend)
+exports.updateProductStatus = async (req, res) => {
+    try {
+        const { productId } = req.params
+        const { status } = req.body
+        await productModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: { isDeleted: status } }, { new: true })
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
+            message: "Your product status is updated successfully...!",
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.updateProductStatus= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}

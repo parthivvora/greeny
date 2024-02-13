@@ -46,6 +46,12 @@ exports.getAllBlogs = async (req, res) => {
     try {
         const blogData = await blogModel.find()
         if (blogData.length > 0) {
+            var row = ""
+            Object.keys(blogData).forEach((key) => {
+                row = blogData[key];
+                row.blogImage =
+                    `${process.env.IMAGE_URL}/blog/` + row.blogImage;
+            });
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
                 blogData

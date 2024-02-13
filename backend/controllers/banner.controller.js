@@ -46,9 +46,15 @@ exports.getAllBannerData = async (req, res) => {
     try {
         const bannerData = await bannerModel.find()
         if (bannerData.length > 0) {
+            var row = ""
+            Object.keys(bannerData).forEach((key) => {
+                row = bannerData[key];
+                row.bannerImage =
+                    `${process.env.IMAGE_URL}/banners/` + row.bannerImage;
+            });
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
-                bannerData
+                bannerData,
             })
         }
         return res.status(responseStatusCode.NOT_FOUND).json({
@@ -102,26 +108,7 @@ exports.updateBanner = async (req, res) => {
     }
 }
 
-// // Update blog status by Admin using blogId (if status false then don't show in Frontend)
-// exports.updateBlogStatus = async (req, res) => {
-//     try {
-//         const { blogId } = req.params
-//         const { status } = req.body
-//         await bannerModel.updateOne({ _id: new mongoose.Types.ObjectId(blogId) }, { $set: { blogStatus: status } }, { new: true })
-//         return res.status(responseStatusCode.SUCCESS).json({
-//             status: responseStatusText.SUCCESS,
-//             message: "Your blog status is updated successfully...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.updateBlogStatus= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
-
-// Delete blog by Admin using blogId
+// Delete banner by Admin using bannerId
 exports.deleteBanner = async (req, res) => {
     try {
         const { bannerId } = req.params
