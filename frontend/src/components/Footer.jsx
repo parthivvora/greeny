@@ -65,7 +65,7 @@ function Footer() {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 col-xl-3">
-                            <div className="footer-widget"><a className="footer-logo" href="#"><img src="images/logo.png" alt="logo" /></a>
+                            <div className="footer-widget"><a className="footer-logo" href="#"><img src={require("../images/logo.png")} alt="logo" /></a>
                                 <p className="footer-desc">Adipisci asperiores ipsum ipsa repellat consequatur repudiandae quisquam
                                     assumenda dolor perspiciatis sit ipsum dolor amet.</p>
                                 <ul className="footer-social">
@@ -119,7 +119,10 @@ function Footer() {
                                 <h3 className="footer-title">Download App</h3>
                                 <p className="footer-desc">Lorem ipsum dolor sit amet tenetur dignissimos ipsum eligendi autem
                                     obcaecati minus ducimus totam reprehenderit exercitationem!</p>
-                                <div className="footer-app"><a href="#"><img src="images/google-store.png" alt="google" /></a><a href="#"><img src="images/app-store.png" alt="app" /></a></div>
+                                <div className="footer-app">
+                                    <a href="#"><img src={require("../images/google-store.png")} alt="google" /></a>
+                                    <a href="#"><img src={require("../images/app-store.png")} alt="app" /></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,7 +130,12 @@ function Footer() {
                         <div className="col-12">
                             <div className="footer-bottom">
                                 <p className="footer-copytext">© All Copyrights Reserved by <a href="#">Greeny store</a></p>
-                                <div className="footer-card"><a href="#"><img src="images/payment/jpg/01.jpg" alt="payment" /></a><a href="#"><img src="images/payment/jpg/02.jpg" alt="payment" /></a><a href="#"><img src="images/payment/jpg/03.jpg" alt="payment" /></a><a href="#"><img src="images/payment/jpg/04.jpg" alt="payment" /></a></div>
+                                <div className="footer-card">
+                                    <a href="#"><img src={require("../images/payment/jpg/01.jpg")} alt="payment" /></a>
+                                    <a href="#"><img src={require("../images/payment/jpg/02.jpg")} alt="payment" /></a>
+                                    <a href="#"><img src={require("../images/payment/jpg/03.jpg")} alt="payment" /></a>
+                                    <a href="#"><img src={require("../images/payment/jpg/04.jpg")} alt="payment" /></a>
+                                </div>
                             </div>
                         </div>
                     </div>

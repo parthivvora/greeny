@@ -25,6 +25,13 @@ const apiKeys = {
 
     // Banners
     getAllBanners: `${BASE_URL}admin/getAllBanners`,
+
+    // Products
+    getAllProducts: `${BASE_URL}admin/getAllProducts`,
+    getAllSingleProductData: `${BASE_URL}admin/getAllSingleProductData`,
+
+    // Categories
+    getAllCategories: `${BASE_URL}admin/getAllCategory`,
 }
 
 export { apiKeys, apiTypes }

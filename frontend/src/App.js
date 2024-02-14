@@ -1,3 +1,5 @@
+import "./styles/main.css"
+// import "bootstrap/dist/css/bootstrap.min.css"
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -13,6 +15,7 @@ import Faq from "./pages/Faq";
 import Privacy from "./pages/Privacy";
 import ChangePassword from "./pages/ChangePassword";
 import BrandList from "./pages/BrandList";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -32,6 +35,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/brand" element={<BrandList />} />
+        <Route path="/product/:productId" element={<ProductDetail />} />
       </Routes>
     </div>
   );

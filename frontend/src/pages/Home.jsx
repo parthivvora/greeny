@@ -1,3 +1,4 @@
+import "../styles/index.css";
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -6,7 +7,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import makeApiRequest from '../global/apiCall';
 import { apiKeys, apiTypes } from '../global/apiKeys';
-import { IMAGEBASEURL_BANNERS, IMAGEBASEURL_BRANDS } from '../global/imageConstant';
+import { IMAGEBASEURL_BRANDS } from '../global/imageConstant';
+import { Link } from 'react-router-dom';
 
 function Home() {
     var bannerPartSliderOptions = {
@@ -42,6 +44,7 @@ function Home() {
 
     const [bannerData, setBannerData] = useState([])
     const [brandData, setBrandData] = useState([])
+    const [getProducts, setGetProducts] = useState([])
 
     // Get banner data for user
     const getAllBbannerData = () => {
@@ -69,9 +72,23 @@ function Home() {
             })
     }
 
+    // Get all products for user
+    const getAllProductsData = () => {
+        makeApiRequest(apiTypes.GET, apiKeys.getAllProducts, null, null, null)
+            .then((resoponse) => {
+                // console.log("🚀 ~ .then ~ resoponse:", resoponse)
+                setGetProducts(resoponse.data.productData)
+            })
+            .catch((error) => {
+                console.log("🚀 ~ getAllProductsData ~ error:", error)
+                alert(error.response.data.message)
+            })
+    }
+
     useEffect(() => {
         getAllBbannerData()
         getAllBrandsData()
+        getAllProductsData()
     }, [])
     return (
         <div className='home'>
@@ -94,7 +111,7 @@ function Home() {
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-lg-6">
-                                            <div className="banner-img"><img src={`${IMAGEBASEURL_BANNERS}${item.bannerImage}`} alt={item.bannerImage} /></div>
+                                            <div className="banner-img"><img src={`${item.bannerImage}`} alt={item.bannerImage} /></div>
                                         </div>
                                     </div>
                                 </div>
@@ -114,46 +131,30 @@ function Home() {
                     </div>
                     <div className="tab-pane fade show active" id="top-order">
                         <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                            <div className="col">
-                                <div className="product-card">
-                                    <div className="product-media">
-                                        <button className="product-wish wish"><i className="fas fa-heart" /></button>
-                                        <a className="product-image" href="product-video.html"><img src={require("../images/product/01.jpg")} alt="01.jpg" /></a>
-                                    </div>
-                                    <div className="product-content">
-                                        <div className="product-rating">
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="fa-solid fa-star" />
+                            {
+                                getProducts.map((product, index) => (
+                                    <div className="col" key={index}>
+                                        <div className={`product-card ${product.productStatus == "outOfStock" ? "product-disable" : ""}`}>
+                                            <div className="product-media">
+                                                <button className="product-wish wish"><i className="fas fa-heart" /></button>
+                                                <Link className="product-image" to={`/product/${product._id}`}><img src={product.productImage} alt={product.productImage} /></Link>
+                                            </div>
+                                            <div className="product-content">
+                                                <div className="product-rating">
+                                                    <i className="active fa-solid fa-star" />
+                                                    <i className="active fa-solid fa-star" />
+                                                    <i className="active fa-solid fa-star" />
+                                                    <i className="active fa-solid fa-star" />
+                                                    <i className="fa-solid fa-star" />
+                                                </div>
+                                                <h6 className="product-name"><a href={`/product/${product._id}`}>{product.productName}</a></h6>
+                                                <h6 className="product-price"><span>₹{product.productPrice}<small> {product.productMeasurement}</small></span></h6>
+                                                <button className="product-add" title="Add to Cart"><i className="fas fa-shopping-basket" /><span>add</span></button>
+                                            </div>
                                         </div>
-                                        <h6 className="product-name"><a href="product-video.html">fresh green chilis</a></h6>
-                                        <h6 className="product-price"><span>$28<small>/piece</small></span></h6>
-                                        <button className="product-add" title="Add to Cart"><i className="fas fa-shopping-basket" /><span>add</span></button>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="product-card product-disable">
-                                    <div className="product-media">
-                                        <button className="product-wish wish"><i className="fas fa-heart" /></button>
-                                        <a className="product-image" href="product-video.html"><img src={require("../images/product/07.jpg")} alt="07.jpg" /></a>
-                                    </div>
-                                    <div className="product-content">
-                                        <div className="product-rating">
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="active fa-solid fa-star" />
-                                            <i className="fa-solid fa-star" />
-                                        </div>
-                                        <h6 className="product-name"><a href="product-video.html">fresh green chilis</a></h6>
-                                        <h6 className="product-price"><span>$28<small>/piece</small></span></h6>
-                                        <button className="product-add" title="Add to Cart"><i className="fas fa-shopping-basket" /><span>add</span></button>
-                                    </div>
-                                </div>
-                            </div>
+                                ))
+                            }
                         </div>
                     </div>
                     <div className="row">

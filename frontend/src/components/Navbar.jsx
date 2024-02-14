@@ -1,10 +1,14 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { apiKeys, apiTypes } from '../global/apiKeys'
+import makeApiRequest from '../global/apiCall'
 
 function Navbar() {
+    const [getCategories, setGetCategories] = useState([])
     const isUserAuth = window.localStorage.getItem("userAuthToken")
     const userName = window.localStorage.getItem("userName")
     const navigate = useNavigate()
+
     const checkUserAuth = () => {
         isUserAuth ? navigate("/profile") : navigate("/login")
     }
@@ -13,6 +17,23 @@ function Navbar() {
         window.localStorage.clear("userName")
         navigate("/")
     }
+
+    // Get all categories for user
+    const getAllCategoriesData = () => {
+        makeApiRequest(apiTypes.GET, apiKeys.getAllCategories, null, null, null)
+            .then((resoponse) => {
+                // console.log("🚀 ~ .then ~ resoponse:", resoponse)
+                setGetCategories(resoponse.data.categoryData)
+            })
+            .catch((error) => {
+                console.log("🚀 ~ getAllCategoriesData ~ error:", error)
+                alert(error.response.data.message)
+            })
+    }
+
+    useEffect(() => {
+        getAllCategoriesData()
+    }, [])
     return (
         <>
             <div className="backdrop" /><a className="backtop fas fa-arrow-up" href="#" />
@@ -50,12 +71,11 @@ function Navbar() {
                                     </li>
                                     <li className="navbar-item dropdown"><a className="navbar-link dropdown-arrow" href="#">category</a>
                                         <ul className="dropdown-position-list">
-                                            <li><a href="login.html">Vegetables</a></li>
-                                            <li><a href="register.html">Fruits</a></li>
-                                            <li><a href="reset-password.html">Dairy Farms</a></li>
-                                            <li><a href="change-password.html">Seafoods</a></li>
-                                            <li><a href="login.html">Drinks</a></li>
-                                            <li><a href="register.html">Meats</a></li>
+                                            {
+                                                getCategories.map((category, index) => (
+                                                    <li key={index}><Link to={category._id}>{category.categoryName}</Link></li>
+                                                ))
+                                            }
                                         </ul>
                                     </li>
                                     <li className="navbar-item"><a className="navbar-link" href="/blog">blogs</a></li>

@@ -1,5 +1,6 @@
+import "../styles/blog-grid.css"
 import React, { useEffect, useState } from 'react'
-import { IMAGEBASEURL_BLOG, imageConstant } from '../global/imageConstant';
+import { imageConstant } from '../global/imageConstant';
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
@@ -47,7 +48,7 @@ function Blog() {
                     <h2>blog</h2>
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><a href="/">Home</a></li>
-                        <li className="breadcrumb-item active" aria-current="page"> / Blog</li>
+                        <li className="breadcrumb-item active" aria-current="page"> Blog</li>
                     </ol>
                 </div>
             </section>
@@ -76,7 +77,7 @@ function Blog() {
                                         <div className="col-md-6 col-lg-6" key={index}>
                                             <div className="blog-card">
                                                 <div className="blog-media">
-                                                    <img src={`${IMAGEBASEURL_BLOG}${blogInfo?.blogImage}`} alt={blogInfo?.blogImage} className="blog-img" />
+                                                    <img src={`${blogInfo?.blogImage}`} alt={blogInfo?.blogImage} className="blog-img" />
                                                 </div>
                                                 <div className="blog-content">
                                                     <ul className="blog-meta">

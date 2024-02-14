@@ -1,3 +1,4 @@
+import "../styles/blog-details.css"
 import React, { useCallback, useEffect, useState } from 'react'
 import { IMAGEBASEURL_BLOG, imageConstant } from '../global/imageConstant';
 import { useParams } from 'react-router-dom';
@@ -35,8 +36,8 @@ function BlogDetails() {
                     <h2>blog details</h2>
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><a href="/">Home</a></li>
-                        <li className="breadcrumb-item"><a href="/blog">/ Blog</a></li>
-                        <li className="breadcrumb-item active" aria-current="page">/ Blog Details</li>
+                        <li className="breadcrumb-item"><a href="/blog">Blog</a></li>
+                        <li className="breadcrumb-item active" aria-current="page">Blog Details</li>
                     </ol>
                 </div>
             </section>
