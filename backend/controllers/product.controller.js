@@ -79,6 +79,66 @@ exports.getAllProductData = async (req, res) => {
     }
 }
 
+// Get all single product data using productId
+exports.getAllSingleProductData = async (req, res) => {
+    try {
+        const { productId } = req.params
+        const productData = await productModel.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(productId)
+                }
+            },
+            {
+                $lookup: {
+                    from: "brands",
+                    localField: "productBrand",
+                    foreignField: "_id",
+                    as: "brandDetail",
+                }
+            },
+            {
+                $unwind: {
+                    path: "$brandDetail"
+                }
+            },
+            {
+                $project: {
+                    "brandDetail.totalItems": 0,
+                    "brandDetail.brandImage": 0,
+                    "brandDetail.brandStatus": 0,
+                    "brandDetail.createdAt": 0,
+                    "brandDetail.updatedAt": 0,
+                    "brandDetail.__v": 0,
+                    __v: 0,
+                    productBrand: 0,
+                }
+            }
+        ])
+        if (productData.length > 0) {
+            var row = ""
+            Object.keys(productData).forEach((key) => {
+                row = productData[key];
+                row.productImage = `${process.env.IMAGE_URL}/products/` + row.productImage;
+            });
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                productData
+            })
+        }
+        return res.status(responseStatusCode.NOT_FOUND).json({
+            status: responseStatusText.ERROR,
+            message: "No product data here...!"
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.getAllSingleProductData= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
+
 // Update product details by Admin using productId
 exports.updateProduct = async (req, res) => {
     try {
