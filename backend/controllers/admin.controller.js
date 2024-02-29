@@ -2,6 +2,10 @@ const jwt = require("jsonwebtoken")
 const { responseStatusCode, responseStatusText } = require("../helper/responseHelper")
 const adminModel = require("../models/admin")
 const { adminLoginValidation } = require("../validation/admin.validation")
+const userModel = require("../models/user")
+const bannerModel = require("../models/banner")
+const categoryModel = require("../models/category")
+const productModel = require("../models/product")
 
 // Admin login
 exports.adminLogin = async (req, res) => {
@@ -37,6 +41,33 @@ exports.adminLogin = async (req, res) => {
         })
     } catch (error) {
         console.log("🚀 ~ file: admin.controller.js:39 ~ exports.userLogin= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
+
+exports.totalCount = async (req, res) => {
+    try {
+        const userCount = await userModel.find()
+        const categoryCount = await categoryModel.find()
+        const productCount = await productModel.find()
+        const bannerCount = await bannerModel.find()
+
+        const totalCount = {
+            userCount: userCount.length,
+            categoryCount: categoryCount.length,
+            productCount: productCount.length,
+            bannerCount: bannerCount.length
+        }
+
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
+            totalCount
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.totalCount= ~ error:", error)
         return res.status(responseStatusCode.INTERNAL_SERVER).json({
             status: responseStatusText.ERROR,
             message: error.message

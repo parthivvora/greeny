@@ -46,6 +46,11 @@ exports.getAllBrands = async (req, res) => {
     try {
         const brandsData = await brandsModel.find()
         if (brandsData.length > 0) {
+            var row = ""
+            Object.keys(brandsData).forEach((key) => {
+                row = brandsData[key];
+                row.brandImage = `${process.env.IMAGE_URL}/brands/` + row.brandImage;
+            });
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
                 brandsData
@@ -81,6 +86,45 @@ exports.getSingleBrand = async (req, res) => {
         })
     } catch (error) {
         console.log("🚀 ~ exports.getSingleBrand= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
+
+
+// Update blog details by Admin using brandId
+exports.updateBrandDetials = async (req, res) => {
+    try {
+        const { brandId } = req.params
+        const { brandName, totalItems, brandStatus } = req.body
+        if (req.file) {
+            const { filename } = req.file
+            const updateBrandDetials = {
+                brandName: brandName,
+                totalItems: totalItems,
+                brandStatus: brandStatus,
+                brandImage: filename,
+            }
+            await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(brandId) }, { $set: updateBrandDetials }, { new: true })
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                message: "Your brand details is updated successfully...!",
+            })
+        }
+        const updateBrandDetials = {
+            brandName: brandName,
+            totalItems: totalItems,
+            brandStatus: brandStatus,
+        }
+        await brandsModel.updateOne({ _id: new mongoose.Types.ObjectId(brandId) }, { $set: updateBrandDetials }, { new: true })
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
+            message: "Your brand details is updated successfully...!",
+        })
+    } catch (error) {
+        console.log("🚀 ~ file: blog.controller.js:123 ~ exports.updateBlog= ~ error:", error)
         return res.status(responseStatusCode.INTERNAL_SERVER).json({
             status: responseStatusText.ERROR,
             message: error.message

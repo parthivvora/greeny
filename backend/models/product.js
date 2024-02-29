@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     productWeight: {
-        type: [String]
+        type: String
     },
     productStyle: {
         type: String
@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     productTags: {
-        type: [String]
+        type: String
     },
     productStatus: {
         type: String,

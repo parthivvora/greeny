@@ -143,7 +143,7 @@ exports.getAllSingleProductData = async (req, res) => {
 exports.updateProduct = async (req, res) => {
     try {
         const { productId } = req.params
-        const { productName, productBrand, productPrice, productMeasurement, productDescription, productWeight, productStyle, productProperties, productStatus } = req.body
+        const { productName, productBrand, productPrice, productMeasurement, productDescription, productWeight, productStyle, productProperties, productStatus, categoryId } = req.body
         if (req.file) {
             const { filename } = req.file
             const updateProductDetail = {
@@ -157,6 +157,7 @@ exports.updateProduct = async (req, res) => {
                 productProperties: productProperties,
                 productStatus: productStatus,
                 productImage: filename,
+                categoryId: categoryId
             }
             await productModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: updateProductDetail }, { new: true })
             return res.status(responseStatusCode.SUCCESS).json({
@@ -174,6 +175,7 @@ exports.updateProduct = async (req, res) => {
             productStyle: productStyle,
             productProperties: productProperties,
             productStatus: productStatus,
+            categoryId: categoryId
         }
         await productModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: updateProductDetail }, { new: true })
         return res.status(responseStatusCode.SUCCESS).json({

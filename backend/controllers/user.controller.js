@@ -161,3 +161,32 @@ exports.changePassword = async (req, res) => {
         })
     }
 }
+
+
+// Get all user information
+exports.getAllUser = async (req, res) => {
+    try {
+        const userData = await userModel.find()
+        if (userData.length > 0) {
+            var row = ""
+            Object.keys(userData).forEach((key) => {
+                row = userData[key];
+                row.userImage = `${process.env.IMAGE_URL}/users/` + row.userImage;
+            });
+            return res.status(responseStatusCode.SUCCESS).json({
+                status: responseStatusText.SUCCESS,
+                userData
+            })
+        }
+        return res.status(responseStatusCode.FORBIDDEN).json({
+            status: responseStatusText.ERROR,
+            message: "No user data found...!"
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.getAllUser= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}

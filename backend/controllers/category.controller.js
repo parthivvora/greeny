@@ -30,7 +30,7 @@ exports.addCategory = async (req, res) => {
 // Get all category data
 exports.getAllCategoryData = async (req, res) => {
     try {
-        const categoryData = await categoryModel.find().select("_id categoryName")
+        const categoryData = await categoryModel.find().select("_id categoryName isDeleted")
         if (categoryData.length > 0) {
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
@@ -52,11 +52,12 @@ exports.getAllCategoryData = async (req, res) => {
 
 // Update category details by Admin using categoryId
 exports.updateCategory = async (req, res) => {
+    console.log(req.body);
     try {
         const { categoryId } = req.params
-        const { categoryName } = req.body
+        const { categoryName, status } = req.body
 
-        await categoryModel.updateOne({ _id: new mongoose.Types.ObjectId(categoryId) }, { $set: { categoryName } }, { new: true })
+        await categoryModel.updateOne({ _id: new mongoose.Types.ObjectId(categoryId) }, { $set: { categoryName: categoryName, isDeleted: status } }, { new: true })
         return res.status(responseStatusCode.SUCCESS).json({
             status: responseStatusText.SUCCESS,
             message: "Your category details is updated successfully...!",
