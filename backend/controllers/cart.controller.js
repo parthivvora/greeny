@@ -33,7 +33,7 @@ exports.addCart = async (req, res) => {
     }
 }
 
-// Get all product of cart using productId
+// Get all product of cart using userId
 exports.getAllCartData = async (req, res) => {
     try {
         const cartData = await cartModel.aggregate([
@@ -42,38 +42,62 @@ exports.getAllCartData = async (req, res) => {
                     userId: new mongoose.Types.ObjectId(req.userId)
                 }
             },
-            // {
-            //     $lookup: {
-            //         from: "brands",
-            //         localField: "productBrand",
-            //         foreignField: "_id",
-            //         as: "brandDetail",
-            //     }
-            // },
-            // {
-            //     $unwind: {
-            //         path: "$brandDetail"
-            //     }
-            // },
-            // {
-            //     $project: {
-            //         "brandDetail.totalItems": 0,
-            //         "brandDetail.brandImage": 0,
-            //         "brandDetail.brandStatus": 0,
-            //         "brandDetail.createdAt": 0,
-            //         "brandDetail.updatedAt": 0,
-            //         "brandDetail.__v": 0,
-            //         __v: 0,
-            //         productBrand: 0,
-            //     }
-            // }
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "productId",
+                    foreignField: "_id",
+                    as: "productDetails",
+                }
+            },
+            {
+                $unwind: {
+                    path: "$productDetails"
+                }
+            },
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "productDetails.categoryId",
+                    foreignField: "_id",
+                    as: "categoryDetails",
+                }
+            },
+            {
+                $unwind: {
+                    path: "$categoryDetails"
+                }
+            },
+            {
+                $project: {
+                    __v: 0,
+                    createdAt: 0,
+                    updatedAt: 0,
+                    productBrand: 0,
+                    "productDetails._id": 0,
+                    "productDetails.productMeasurement": 0,
+                    "productDetails.productDescription": 0,
+                    "productDetails.productWeight": 0,
+                    "productDetails.productStyle": 0,
+                    "productDetails.productProperties": 0,
+                    "productDetails.productTags": 0,
+                    "productDetails.productStatus": 0,
+                    "productDetails.isDeleted": 0,
+                    "productDetails.__v": 0,
+                    "categoryDetails._id": 0,
+                    "categoryDetails.__v": 0,
+                    "categoryDetails.createdAt": 0,
+                    "categoryDetails.updatedAt": 0,
+                    "categoryDetails.isDeleted": 0,
+                }
+            }
         ])
         if (cartData.length > 0) {
-            // var row = ""
-            // Object.keys(productData).forEach((key) => {
-            //     row = productData[key];
-            //     row.productImage = `${process.env.IMAGE_URL}/products/` + row.productImage;
-            // });
+            var row = ""
+            Object.keys(cartData).forEach((key) => {
+                row = cartData[key];
+                row.productDetails.productImage = `${process.env.IMAGE_URL}/products/` + row.productDetails.productImage;
+            });
             return res.status(responseStatusCode.SUCCESS).json({
                 status: responseStatusText.SUCCESS,
                 cartData
@@ -92,71 +116,41 @@ exports.getAllCartData = async (req, res) => {
     }
 }
 
-// Update product details by Admin using productId
-// exports.updateProduct = async (req, res) => {
-//     try {
-//         const { productId } = req.params
-//         const { productName, productBrand, productPrice, productMeasurement, productDescription, productWeight, productStyle, productProperties, productStatus } = req.body
-//         if (req.file) {
-//             const { filename } = req.file
-//             const updateProductDetail = {
-//                 productName: productName,
-//                 productBrand: productBrand,
-//                 productPrice: productPrice,
-//                 productMeasurement: productMeasurement,
-//                 productDescription: productDescription,
-//                 productWeight: productWeight,
-//                 productStyle: productStyle,
-//                 productProperties: productProperties,
-//                 productStatus: productStatus,
-//                 productImage: filename,
-//             }
-//             await cartModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: updateProductDetail }, { new: true })
-//             return res.status(responseStatusCode.SUCCESS).json({
-//                 status: responseStatusText.SUCCESS,
-//                 message: "Your product details is updated successfully...!",
-//             })
-//         }
-//         const updateProductDetail = {
-//             productName: productName,
-//             productBrand: productBrand,
-//             productPrice: productPrice,
-//             productMeasurement: productMeasurement,
-//             productDescription: productDescription,
-//             productWeight: productWeight,
-//             productStyle: productStyle,
-//             productProperties: productProperties,
-//             productStatus: productStatus,
-//         }
-//         await cartModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: updateProductDetail }, { new: true })
-//         return res.status(responseStatusCode.SUCCESS).json({
-//             status: responseStatusText.SUCCESS,
-//             message: "Your product details is updated successfully...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.updateProduct= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Update cart using cartId and userId
+exports.updateCart = async (req, res) => {
+    try {
+        const { userId } = req
+        const { cartId } = req.params
+        const { quantity } = req.body
+        await cartModel.updateOne({ $and: [{ _id: new mongoose.Types.ObjectId(cartId) }, { userId: new mongoose.Types.ObjectId(userId) }] }, { $set: { quantity: quantity } }, { new: true })
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
+            message: "Your cart is updated successfully...!",
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.updateProduct= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}
 
-// Update product status by Admin using productId (if status false then don't show in Frontend)
-// exports.updateProductStatus = async (req, res) => {
-//     try {
-//         const { productId } = req.params
-//         const { status } = req.body
-//         await cartModel.updateOne({ _id: new mongoose.Types.ObjectId(productId) }, { $set: { isDeleted: status } }, { new: true })
-//         return res.status(responseStatusCode.SUCCESS).json({
-//             status: responseStatusText.SUCCESS,
-//             message: "Your product status is updated successfully...!",
-//         })
-//     } catch (error) {
-//         console.log("🚀 ~ exports.updateProductStatus= ~ error:", error)
-//         return res.status(responseStatusCode.INTERNAL_SERVER).json({
-//             status: responseStatusText.ERROR,
-//             message: error.message
-//         })
-//     }
-// }
+// Delete cart item using productId and userId (if status false then don't show in Frontend)
+exports.deleteCart = async (req, res) => {
+    try {
+        const { userId } = req
+        const { cartId } = req.params
+        await cartModel.updateOne({ $and: [{ _id: new mongoose.Types.ObjectId(cartId) }, { userId: new mongoose.Types.ObjectId(userId) }] }, { $set: { isDeleted: true } }, { new: true })
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
+            message: "Your product is deleted successfully from your cart...!",
+        })
+    } catch (error) {
+        console.log("🚀 ~ exports.updateCartStatus= ~ error:", error)
+        return res.status(responseStatusCode.INTERNAL_SERVER).json({
+            status: responseStatusText.ERROR,
+            message: error.message
+        })
+    }
+}

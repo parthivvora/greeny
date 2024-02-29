@@ -74,13 +74,13 @@ exports.getAllBannerData = async (req, res) => {
 exports.updateBanner = async (req, res) => {
     try {
         const { bannerId } = req.params
-        const { bannerTitle, bannerDescription } = req.body
+        const { bannerTitle, bannerDescription, status } = req.body
         if (req.file) {
             const { filename } = req.file
             const updateBannersDetail = {
                 bannerTitle: bannerTitle,
                 bannerDescription: bannerDescription,
-                blogDate: Date.now(),
+                status: status,
                 bannerImage: filename,
             }
             await bannerModel.updateOne({ _id: new mongoose.Types.ObjectId(bannerId) }, { $set: updateBannersDetail }, { new: true })
@@ -92,7 +92,7 @@ exports.updateBanner = async (req, res) => {
         const updateBannersDetail = {
             bannerTitle: bannerTitle,
             bannerDescription: bannerDescription,
-            blogDate: Date.now(),
+            status: status,
         }
         await bannerModel.updateOne({ _id: new mongoose.Types.ObjectId(bannerId) }, { $set: updateBannersDetail }, { new: true })
         return res.status(responseStatusCode.SUCCESS).json({
