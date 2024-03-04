@@ -11,7 +11,6 @@ import SortIcon from "@material-ui/icons/ArrowDownward";
 function Cart() {
     const [cartData, setCartData] = useState([])
     const [viewProductData, setViewProductData] = useState([])
-    const [quantity, setQuantity] = useState(null)
 
     // Get all product of cart
     const getAllProductCart = () => {
@@ -44,6 +43,18 @@ function Cart() {
                 })
         }
 
+    }
+
+    // Remove products from cart
+    const removeCartData = (cartId) => {
+        makeApiRequest(apiTypes.DELETE, `${apiKeys.deleteCart}${cartId}`, null, null, null)
+            .then((response) => {
+                console.log("🚀 ~ .then ~ response:", response.data)
+                getAllProductCart()
+            })
+            .catch((error) => {
+                alert(error.response.data.message)
+            })
     }
 
     const columns = [
@@ -86,7 +97,7 @@ function Cart() {
             name: "Action",
             selector: (row) => <div className="table-action flex gap-3">
                 <a className="view cursor-pointer" onClick={() => setViewProductData(row)} title="Quick View" data-bs-toggle="modal" data-bs-target="#product-view"><i className="fas fa-eye" /></a>
-                <a className="trash cursor-pointer" title="Remove cart"><i className="fa-solid fa-trash" /></a>
+                <a className="trash cursor-pointer" title="Remove cart" onClick={() => removeCartData(row._id)}><i className="fa-solid fa-trash" /></a>
             </div>,
         }
     ];
@@ -95,7 +106,6 @@ function Cart() {
         getAllProductCart()
     }, [])
 
-    console.log(viewProductData);
     return (
         <div>
             <Navbar />
@@ -116,7 +126,7 @@ function Cart() {
                                         <h3 className="view-name">{viewProductData?.productDetails?.productName}</h3>
                                         <div className="view-meta">
                                             <p>SKU:<span>{viewProductData?._id}</span></p>
-                                            <p>BRAND:<a>radhuni</a></p>
+                                            <p>BRAND:<a>{viewProductData?.brandDetails?.brandName}</a></p>
                                         </div>
                                         <div className="view-rating">
                                             <i className="active fa-solid fa-star" />
@@ -126,14 +136,16 @@ function Cart() {
                                             <i className="fa-solid fa-star" />
                                             <a>(3 reviews)</a>
                                         </div>
-                                        <h3 className="view-price"><span>₹{viewProductData?.productDetails?.productPrice}<small>/per kilo</small></span></h3>
-                                        <p className="view-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit non tempora magni repudiandae sint suscipit tempore quis maxime explicabo veniam eos reprehenderit fuga</p>
+                                        <h3 className="view-price"><span>₹{viewProductData?.productDetails?.productPrice}<small>/{viewProductData?.productDetails?.productMeasurement}</small></span></h3>
+                                        <p className="view-desc">{viewProductData?.productDetails?.productDescription}</p>
                                         <div className="view-list-group">
                                             <label className="view-list-title">tags:</label>
                                             <ul className="view-tag-list">
-                                                <li><a>organic</a></li>
-                                                <li><a>vegetable</a></li>
-                                                <li><a>chilis</a></li>
+                                                {
+                                                    viewProductData?.productDetails?.productTags?.split(", ").map((tag, index) => (
+                                                        <li key={index}><a className='hover:text-white'>{tag}</a></li>
+                                                    ))
+                                                }
                                             </ul>
                                         </div>
                                         <div className="view-list-group">
@@ -169,7 +181,12 @@ function Cart() {
                                 <div className="account-title"><h4>Your products</h4></div>
                                 <div className="account-content">
                                     <div className="table-scroll">
-                                        <DataTable columns={columns} data={cartData} defaultSortFieldId={1} sortIcon={<SortIcon />} pagination />
+                                        {
+                                            cartData.length > 0 ? (
+                                                <DataTable columns={columns} data={cartData} defaultSortFieldId={1} sortIcon={<SortIcon />} pagination />
+                                            ) :
+                                                (<h1>No cart data found</h1>)
+                                        }
                                     </div>
                                 </div>
                             </div>
