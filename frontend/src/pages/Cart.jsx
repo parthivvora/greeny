@@ -2,73 +2,100 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { imageConstant } from '../global/imageConstant';
+import { apiKeys, apiTypes } from '../global/apiKeys';
+import makeApiRequest from '../global/apiCall';
 
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
-// import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import DataTable from "react-data-table-component";
+import SortIcon from "@material-ui/icons/ArrowDownward";
 
 function Cart() {
+    const [cartData, setCartData] = useState([])
+    const [viewProductData, setViewProductData] = useState([])
+    const [quantity, setQuantity] = useState(null)
 
-    const abc = [
-        {
-            "name": "Dune",
-            "author": "Frank Herbert",
-            "year": "1965"
-        },
-        {
-            "name": "Ender's Game",
-            "author": "Orson Scott Card",
-            "year": "1985"
-        },
-        {
-            "name": "The Hitchhiker's Guide to the Galaxy",
-            "author": "Douglas Adams",
-            "year": "1979"
-        },
-        {
-            "name": "1984",
-            "author": "George Orwell",
-            "year": "1949"
-        },
-        {
-            "name": "Brave New World",
-            "author": "Aldous Huxley",
-            "year": "1932"
-        },
-        {
-            "name": "Foundation",
-            "author": "Isaac Asimov",
-            "year": "1951"
-        },
-        {
-            "name": "Neuromancer",
-            "author": "William Gibson",
-            "year": "1984"
-        },
-        {
-            "name": "Snow Crash",
-            "author": "Neal Stephenson",
-            "year": "1992"
-        },
-        {
-            "name": "The Martian",
-            "author": "Andy Weir",
-            "year": "2011"
-        },
-        {
-            "name": "Ready Player One",
-            "author": "Ernest Cline",
-            "year": "2011"
+    // Get all product of cart
+    const getAllProductCart = () => {
+        makeApiRequest(apiTypes.GET, apiKeys.getCartData, null, null, null)
+            .then((response) => {
+                setCartData(response.data.cartData)
+            })
+            .catch((error) => {
+                alert(error.response.data.message)
+            })
+    }
+
+    const changeQuantity = (type, value, cartId) => {
+        if (type == "plus") {
+            makeApiRequest(apiTypes.PUT, `${apiKeys.updateCart}${cartId}`, { quantity: value + 1 }, null, null)
+                .then((response) => {
+                    getAllProductCart()
+                })
+                .catch((error) => {
+                    alert(error.response.data.message)
+                })
         }
-    ]
+        else {
+            makeApiRequest(apiTypes.PUT, `${apiKeys.updateCart}${cartId}`, { quantity: value - 1 }, null, null)
+                .then((response) => {
+                    getAllProductCart()
+                })
+                .catch((error) => {
+                    alert(error.response.data.message)
+                })
+        }
 
-    const [customers, setCustomers] = useState([abc]);
-    console.log("🚀 ~ Cart ~ customers:", customers)
+    }
 
+    const columns = [
+        {
+            id: 1,
+            name: "Serial",
+            selector: (row) => row._id,
+        },
+        {
+            id: 2,
+            name: "Product",
+            selector: (row) => <img src={row.productDetails.productImage} alt={row.productDetails.productImage} />,
+        },
+        {
+            id: 3,
+            name: "Name",
+            selector: (row) => row.productDetails.productName,
+        },
+        {
+            id: 4,
+            name: "Price",
+            selector: (row) => row.productDetails.productPrice,
+        },
+        {
+            id: 5,
+            name: "Brand",
+            selector: (row) => row.userId,
+        },
+        {
+            id: 6,
+            name: "Quantity",
+            selector: (row) => <div className='flex cart-table-quantity-action items-center gap-2'>
+                <button className='plus-icon' onClick={() => changeQuantity("plus", row.quantity, row._id)}>+</button>
+                <input type="text" value={row.quantity} className='w-full quantity-value-field text-center' />
+                <button className='minus-icon' onClick={() => changeQuantity("minus", row.quantity, row._id)}>-</button>
+            </div>,
+        },
+        {
+            id: 7,
+            name: "Action",
+            selector: (row) => <div className="table-action flex gap-3">
+                <a className="view cursor-pointer" onClick={() => setViewProductData(row)} title="Quick View" data-bs-toggle="modal" data-bs-target="#product-view"><i className="fas fa-eye" /></a>
+                <a className="trash cursor-pointer" title="Remove cart"><i className="fa-solid fa-trash" /></a>
+            </div>,
+        }
+    ];
 
+    useEffect(() => {
+        getAllProductCart()
+    }, [])
+
+    console.log(viewProductData);
     return (
         <div>
             <Navbar />
@@ -80,16 +107,16 @@ function Cart() {
                                 <div className="col-md-6 col-lg-6">
                                     <div className="view-gallery">
                                         <ul className="preview-slider slider-arrow">
-                                            <li><img src={require("../images/product/01.jpg")} alt="01.jpg" /></li>
+                                            <li><img src={viewProductData?.productDetails?.productImage} alt={viewProductData?.productDetails?.productImage} /></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div className="col-md-6 col-lg-6">
                                     <div className="view-details">
-                                        <h3 className="view-name">existing product name</h3>
+                                        <h3 className="view-name">{viewProductData?.productDetails?.productName}</h3>
                                         <div className="view-meta">
-                                            <p>SKU:<span>1234567</span></p>
-                                            <p>BRAND:<a href="#">radhuni</a></p>
+                                            <p>SKU:<span>{viewProductData?._id}</span></p>
+                                            <p>BRAND:<a>radhuni</a></p>
                                         </div>
                                         <div className="view-rating">
                                             <i className="active fa-solid fa-star" />
@@ -97,16 +124,16 @@ function Cart() {
                                             <i className="active fa-solid fa-star" />
                                             <i className="active fa-solid fa-star" />
                                             <i className="fa-solid fa-star" />
-                                            <a href="product-video.html">(3 reviews)</a>
+                                            <a>(3 reviews)</a>
                                         </div>
-                                        <h3 className="view-price"><del>$38.00</del><span>$24.00<small>/per kilo</small></span></h3>
+                                        <h3 className="view-price"><span>₹{viewProductData?.productDetails?.productPrice}<small>/per kilo</small></span></h3>
                                         <p className="view-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit non tempora magni repudiandae sint suscipit tempore quis maxime explicabo veniam eos reprehenderit fuga</p>
                                         <div className="view-list-group">
                                             <label className="view-list-title">tags:</label>
                                             <ul className="view-tag-list">
-                                                <li><a href="#">organic</a></li>
-                                                <li><a href="#">vegetable</a></li>
-                                                <li><a href="#">chilis</a></li>
+                                                <li><a>organic</a></li>
+                                                <li><a>vegetable</a></li>
+                                                <li><a>chilis</a></li>
                                             </ul>
                                         </div>
                                         <div className="view-list-group">
@@ -142,40 +169,7 @@ function Cart() {
                                 <div className="account-title"><h4>Your products</h4></div>
                                 <div className="account-content">
                                     <div className="table-scroll">
-                                        {/* <table className="table-list">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Serial</th>
-                                                    <th scope="col">Product</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">brand</th>
-                                                    <th scope="col">quantity</th>
-                                                    <th scope="col">action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td className="table-serial"><h6>01</h6></td>
-                                                    <td className="table-image"><img src="images/product/01.jpg" alt="product" /></td>
-                                                    <td className="table-name"><h6>product name</h6></td>
-                                                    <td className="table-price"><h6>$19<small>/kilo</small></h6></td>
-                                                    <td className="table-brand"><h6>Fresh Company</h6></td>
-                                                    <td className="table-quantity"><h6>3</h6></td>
-                                                    <td className="table-action">
-                                                        <a className="view" href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#product-view"><i className="fas fa-eye" /></a>
-                                                        <a className="trash cursor-pointer" title="Remove cart"><i className="fa-solid fa-trash" /></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table> */}
-
-                                        <DataTable value={abc} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
-                                            <Column field="name" header="Name" style={{ width: '25%' }}></Column>
-                                            <Column field="author" header="Country" style={{ width: '25%' }}></Column>
-                                            <Column field="year" header="Company" style={{ width: '25%' }}></Column>
-                                        </DataTable>
-
+                                        <DataTable columns={columns} data={cartData} defaultSortFieldId={1} sortIcon={<SortIcon />} pagination />
                                     </div>
                                 </div>
                             </div>

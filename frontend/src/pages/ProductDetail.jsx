@@ -152,6 +152,11 @@ function ProductDetail() {
                                 </div>
                                 <div className="details-add-group">
                                     <button className="product-add" title="Add to Cart"><i className="fas fa-shopping-basket" /><span>add to cart</span></button>
+                                    <div className="product-action">
+                                        <button className="action-minus" title="Quantity Minus"><i className="fa-solid fa-minus" /></button>
+                                        <input className="action-input" title="Quantity Number" type="text" name="quantity" defaultValue={1} />
+                                        <button className="action-plus" title="Quantity Plus"><i className="fa-solid fa-plus" /></button>
+                                    </div>
                                 </div>
                                 <div className="details-action-group">
                                     <a className="details-wish wish" href="#" title="Add Your Wishlist"><i className="fa-solid fa-heart" /><span>add to wish</span></a>
