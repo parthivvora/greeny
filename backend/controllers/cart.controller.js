@@ -69,18 +69,28 @@ exports.getAllCartData = async (req, res) => {
                 }
             },
             {
+                $lookup: {
+                    from: "brands",
+                    localField: "productDetails.productBrand",
+                    foreignField: "_id",
+                    as: "brandDetails",
+                }
+            },
+            {
+                $unwind: {
+                    path: "$brandDetails"
+                }
+            },
+            {
                 $project: {
                     __v: 0,
                     createdAt: 0,
                     updatedAt: 0,
                     productBrand: 0,
                     "productDetails._id": 0,
-                    "productDetails.productMeasurement": 0,
-                    "productDetails.productDescription": 0,
                     "productDetails.productWeight": 0,
                     "productDetails.productStyle": 0,
                     "productDetails.productProperties": 0,
-                    "productDetails.productTags": 0,
                     "productDetails.productStatus": 0,
                     "productDetails.isDeleted": 0,
                     "productDetails.__v": 0,
@@ -89,6 +99,13 @@ exports.getAllCartData = async (req, res) => {
                     "categoryDetails.createdAt": 0,
                     "categoryDetails.updatedAt": 0,
                     "categoryDetails.isDeleted": 0,
+                    "brandDetails._id": 0,
+                    "brandDetails.totalItems": 0,
+                    "brandDetails.brandImage": 0,
+                    "brandDetails.brandStatus": 0,
+                    "brandDetails.createdAt": 0,
+                    "brandDetails.updatedAt": 0,
+                    "brandDetails.__v": 0,
                 }
             }
         ])

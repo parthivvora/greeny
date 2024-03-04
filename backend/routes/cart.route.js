@@ -8,7 +8,4 @@ router.get("/getCartData", userAuth, getAllCartData)
 router.put("/updateCart/:cartId", userAuth, updateCart)
 router.delete("/deleteCart/:cartId", userAuth, deleteCart)
 
-// router.get("/getSingleBlog/:blogId", getSingleBlog)
-// router.put("/updateBlog/:blogId", adminAuth, blogImageUpload.single("blogImage"), updateBlog)
-
 module.exports = router
