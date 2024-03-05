@@ -82,6 +82,11 @@ exports.getAllCartData = async (req, res) => {
                 }
             },
             {
+                $match: {
+                    isDeleted: false
+                }
+            },
+            {
                 $project: {
                     __v: 0,
                     createdAt: 0,
@@ -120,8 +125,8 @@ exports.getAllCartData = async (req, res) => {
                 cartData
             })
         }
-        return res.status(responseStatusCode.NOT_FOUND).json({
-            status: responseStatusText.ERROR,
+        return res.status(responseStatusCode.SUCCESS).json({
+            status: responseStatusText.SUCCESS,
             message: "No product into your cart...!"
         })
     } catch (error) {
