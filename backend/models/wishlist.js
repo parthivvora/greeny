@@ -1,17 +1,13 @@
 const { Schema } = require("mongoose")
 const mongoose = require("mongoose")
 
-const cartSchema = new mongoose.Schema(
+const wishlistSchema = new mongoose.Schema(
     {
         userId: {
             type: Schema.Types.ObjectId
         },
         productId: {
             type: Schema.Types.ObjectId
-        },
-        quantity: {
-            type: Number,
-            default: 1,
         },
         isDeleted: {
             type: Boolean,
@@ -23,5 +19,5 @@ const cartSchema = new mongoose.Schema(
     }
 )
 
-const cartModel = mongoose.model("cart", cartSchema)
-module.exports = cartModel
+const wishlistModel = mongoose.model("wishlist", wishlistSchema)
+module.exports = wishlistModel
