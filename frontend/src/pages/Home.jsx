@@ -7,7 +7,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import makeApiRequest from '../global/apiCall';
 import { apiKeys, apiTypes } from '../global/apiKeys';
-import { IMAGEBASEURL_BRANDS } from '../global/imageConstant';
 import { Link } from 'react-router-dom';
 
 function Home() {
@@ -47,14 +46,12 @@ function Home() {
     const [getProducts, setGetProducts] = useState([])
 
     // Get banner data for user
-    const getAllBbannerData = () => {
+    const getAllBannerData = () => {
         makeApiRequest(apiTypes.GET, apiKeys.getAllBanners, null, null, null)
-            .then((resoponse) => {
-                // console.log("🚀 ~ .then ~ resoponse:", resoponse)
-                setBannerData(resoponse.data.bannerData)
+            .then((response) => {
+                setBannerData(response.data.bannerData)
             })
             .catch((error) => {
-                console.log("🚀 ~ getAllBrandsData ~ error:", error.response.data.message)
                 alert(error.response.data.message)
             })
     }
@@ -62,12 +59,10 @@ function Home() {
     // Get all brands for user
     const getAllBrandsData = () => {
         makeApiRequest(apiTypes.GET, apiKeys.getAllBrands, null, null, null)
-            .then((resoponse) => {
-                // console.log("🚀 ~ .then ~ resoponse:", resoponse)
-                setBrandData(resoponse.data.brandsData)
+            .then((response) => {
+                setBrandData(response.data.brandsData)
             })
             .catch((error) => {
-                console.log("🚀 ~ getAllBrandsData ~ error:", error.response.data.message)
                 alert(error.response.data.message)
             })
     }
@@ -75,18 +70,16 @@ function Home() {
     // Get all products for user
     const getAllProductsData = () => {
         makeApiRequest(apiTypes.GET, apiKeys.getAllProducts, null, null, null)
-            .then((resoponse) => {
-                // console.log("🚀 ~ .then ~ resoponse:", resoponse)
-                setGetProducts(resoponse.data.productData)
+            .then((response) => {
+                setGetProducts(response.data.productData)
             })
             .catch((error) => {
-                console.log("🚀 ~ getAllProductsData ~ error:", error)
                 alert(error.response.data.message)
             })
     }
 
     useEffect(() => {
-        getAllBbannerData()
+        getAllBannerData()
         getAllBrandsData()
         getAllProductsData()
     }, [])
@@ -221,7 +214,7 @@ function Home() {
                                     {
                                         brandData.map((item, index) => (
                                             <div className="brand-wrap" key={index}>
-                                                <div className="brand-media"><img src={`${IMAGEBASEURL_BRANDS}${item.brandImage}`} alt={item.brandImage} />
+                                                <div className="brand-media"><img src={`${item.brandImage}`} alt={item.brandImage} />
                                                     <div className="brand-overlay"><a href="brand-single.html"><i className="fas fa-link" /></a></div>
                                                 </div>
                                                 <div className="brand-meta">

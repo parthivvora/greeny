@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import { imageConstant } from "../global/imageConstant";
 import { apiKeys, apiTypes } from "../global/apiKeys";
 import makeApiRequest from "../global/apiCall";
-
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 
