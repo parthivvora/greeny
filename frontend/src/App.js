@@ -1,4 +1,4 @@
-import "./styles/main.css"
+import "./styles/main.css";
 // import "bootstrap/dist/css/bootstrap.min.css"
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -16,6 +16,7 @@ import Privacy from "./pages/Privacy";
 import ChangePassword from "./pages/ChangePassword";
 import BrandList from "./pages/BrandList";
 import ProductDetail from "./pages/ProductDetail";
+import CategoryProducts from "./pages/CategoryProducts";
 
 function App() {
   return (
@@ -36,10 +37,10 @@ function App() {
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/brand" element={<BrandList />} />
         <Route path="/product/:productId" element={<ProductDetail />} />
+        <Route path="/category/:categoryId" element={<CategoryProducts />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
-// style={{ background: `url(${imageConstant.SINGLE_BANNER})`, backgroundPosition: "center", backgroundSize: "cover" }}

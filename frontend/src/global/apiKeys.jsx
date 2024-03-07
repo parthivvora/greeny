@@ -29,6 +29,7 @@ const apiKeys = {
   // Products
   getAllProducts: `${BASE_URL}admin/getAllProducts`,
   getAllSingleProductData: `${BASE_URL}admin/getAllSingleProductData`,
+  getCategoryProduct: `${BASE_URL}admin/getCategoryProduct/`,
 
   // Categories
   getAllCategories: `${BASE_URL}admin/getAllCategory`,
