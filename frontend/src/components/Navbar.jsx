@@ -143,7 +143,9 @@ function Navbar() {
                             display: `${category.isDeleted ? "none" : "block"}`,
                           }}
                         >
-                          <Link to={category._id}>{category.categoryName}</Link>
+                          <a href={`/category/${category._id}`}>
+                            {category.categoryName}
+                          </a>
                         </li>
                       ))}
                     </ul>
