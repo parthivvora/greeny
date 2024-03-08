@@ -59,11 +59,54 @@ exports.addProducts = async (req, res) => {
 // Get all product data
 exports.getAllProductData = async (req, res) => {
   try {
-    const productData = await productModel.find().select("-__v");
+    const productData = await productModel.aggregate([
+      {
+        $lookup: {
+          from: "wishlists",
+          localField: "_id",
+          foreignField: "productId",
+          as: "wishlistsData",
+        },
+      },
+      {
+        $addFields: {
+          wishlistStatus: {
+            $map: {
+              input: "$wishlistsData",
+              as: "wishlist",
+              in: {
+                $cond: {
+                  if: { $eq: ["$$wishlist.isDeleted", false] },
+                  then: true,
+                  else: false,
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        $addFields: {
+          wishlistStatus: {
+            $toString: {
+              $arrayElemAt: ["$wishlistStatus", 0],
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          __v: 0,
+          wishlistsData: 0,
+        },
+      },
+    ]);
+
     if (productData.length > 0) {
       var row = "";
       Object.keys(productData).forEach((key) => {
         row = productData[key];
+        row.wishlistStatus = row.wishlistStatus == "true" ? true : false;
         row.productImage =
           `${process.env.IMAGE_URL}/products/` + row.productImage;
       });
@@ -264,7 +307,7 @@ exports.getCategoryProduct = async (req, res) => {
       message: "No product data here...!",
     });
   } catch (error) {
-    console.log("🚀 ~ exports.getCategoryProduct= ~ error:", error)
+    console.log("🚀 ~ exports.getCategoryProduct= ~ error:", error);
     return res.status(responseStatusCode.INTERNAL_SERVER).json({
       status: responseStatusText.ERROR,
       message: error.message,

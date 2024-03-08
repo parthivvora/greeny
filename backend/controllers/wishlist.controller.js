@@ -8,6 +8,18 @@ const wishlistModel = require("../models/wishlist");
 // Add to wishlist by User
 exports.addWishlist = async (req, res) => {
   try {
+    const isWishlistData = await wishlistModel.findOne({
+      $and: [
+        { userId: { $eq: req.userId } },
+        { productId: { $eq: req.body.productId } },
+      ],
+    });
+    if (isWishlistData) {
+      return res.status(responseStatusCode.FORBIDDEN).json({
+        status: responseStatusText.WARNING,
+        message: "This product is already in your wishlist...!",
+      });
+    }
     const newWishlist = {
       userId: req.userId,
       productId: req.body.productId,
