@@ -41,6 +41,39 @@ function CategoryProducts() {
   const indexOfLastResult = Math.min(currentPage * itemsPerPage, totalItems);
   const resultsMessage = `Showing ${indexOfFirstResult} - ${indexOfLastResult} of ${totalItems} Results`;
 
+  // Add to cart product
+  const addToCart = (productId) => {
+    const data = {
+      productId: productId,
+      quantity: 1,
+    };
+    makeApiRequest(apiTypes.POST, apiKeys.addCart, data, null, null)
+      .then((response) => {
+        alert(response.data.message);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  // Add to wishlist product
+  const wishlistProduct = (productId) => {
+    makeApiRequest(
+      apiTypes.POST,
+      apiKeys.addWishlist,
+      { productId: productId },
+      null,
+      null
+    )
+      .then((response) => {
+        alert(response.data.message);
+        getAllProductsData();
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
   useEffect(() => {
     getAllProductsData();
   }, []);
@@ -397,7 +430,10 @@ function CategoryProducts() {
                         <div className="col" key={index}>
                           <div className="product-card">
                             <div className="product-media">
-                              <button className="product-wish wish">
+                              <button
+                                className="product-wish wish"
+                                onClick={() => wishlistProduct(product._id)}
+                              >
                                 <i className="fas fa-heart" />
                               </button>
                               <Link
@@ -434,6 +470,7 @@ function CategoryProducts() {
                               <button
                                 className="product-add"
                                 title="Add to Cart"
+                                onClick={() => addToCart(product._id)}
                               >
                                 <i className="fas fa-shopping-basket" />
                                 <span>add</span>
