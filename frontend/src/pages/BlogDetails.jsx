@@ -149,12 +149,13 @@ function BlogDetails() {
                   {blogData?.commentCount} Comments
                 </h3>
                 <ul className="comment-list">
-                  {blogData?.commentData.map((comment) => (
+                  {blogData?.commentData.map((comment,index) => (
                     <li
                       className="comment-item"
                       style={{
                         display: `${comment.isDeleted ? "none" : "block"}`,
                       }}
+                      key={index}
                     >
                       <div className="comment-media">
                         <h6 className="comment-meta">

@@ -6,7 +6,8 @@ router.use(
   require("./user.route"),
   require("./cart.route"),
   require("./wishlist.route"),
-  require("./comment.route")
+  require("./comment.route"),
+  require("./subscribe.route")
 );
 router.use(
   "/admin",
