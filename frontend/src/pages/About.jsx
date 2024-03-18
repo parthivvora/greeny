@@ -41,7 +41,7 @@ function About() {
               <a href="/">Home</a>
             </li>
             <li className="breadcrumb-item active ps-1" aria-current="page">
-              / about
+              about
             </li>
           </ol>
         </div>
@@ -228,101 +228,6 @@ function About() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="inner-section about-team">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="section-heading">
-                <h2>our team members</h2>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-12">
-              <ul className="team-slider slider-arrow">
-                <Slider {...teamSliderOptions}>
-                  <li>
-                    <figure className="team-media">
-                      <img
-                        src={require("../images/team/01.jpg")}
-                        alt="01.jpg"
-                      />
-                      <div className="team-overlay">
-                        <a href="#" className="fa-brands fa-facebook-f" />
-                        <a href="#" className="fa-brands fa-twitter" />
-                        <a href="#" className="fa-brands fa-linkedin" />
-                      </div>
-                    </figure>
-                    <div className="team-meta mt-4">
-                      <h5>
-                        <a href="#">Jhonson Hononr1</a>
-                      </h5>
-                      <p>Founder &amp; CEO</p>
-                    </div>
-                  </li>
-                  <li>
-                    <figure className="team-media">
-                      <img
-                        src={require("../images/team/02.jpg")}
-                        alt="02.jpg"
-                      />
-                      <div className="team-overlay">
-                        <a href="#" className="fa-brands fa-facebook-f" />
-                        <a href="#" className="fa-brands fa-twitter" />
-                        <a href="#" className="fa-brands fa-linkedin" />
-                      </div>
-                    </figure>
-                    <div className="team-meta mt-4">
-                      <h5>
-                        <a href="#">Jhonson Hononr2</a>
-                      </h5>
-                      <p>Web developer</p>
-                    </div>
-                  </li>
-                  <li>
-                    <figure className="team-media">
-                      <img
-                        src={require("../images/team/01.jpg")}
-                        alt="01.jpg"
-                      />
-                      <div className="team-overlay">
-                        <a href="#" className="fa-brands fa-facebook-f" />
-                        <a href="#" className="fa-brands fa-twitter" />
-                        <a href="#" className="fa-brands fa-linkedin" />
-                      </div>
-                    </figure>
-                    <div className="team-meta mt-4">
-                      <h5>
-                        <a href="#">Jhonson Hononr3</a>
-                      </h5>
-                      <p>Founder &amp; CEO</p>
-                    </div>
-                  </li>
-                  <li>
-                    <figure className="team-media">
-                      <img
-                        src={require("../images/team/02.jpg")}
-                        alt="02.jpg"
-                      />
-                      <div className="team-overlay">
-                        <a href="#" className="fa-brands fa-facebook-f" />
-                        <a href="#" className="fa-brands fa-twitter" />
-                        <a href="#" className="fa-brands fa-linkedin" />
-                      </div>
-                    </figure>
-                    <div className="team-meta mt-4">
-                      <h5>
-                        <a href="#">Jhonson Hononr4</a>
-                      </h5>
-                      <p>Web developer</p>
-                    </div>
-                  </li>
-                </Slider>
-              </ul>
             </div>
           </div>
         </div>

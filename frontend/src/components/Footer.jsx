@@ -160,21 +160,21 @@ function Footer() {
                 <h3 className="footer-title">contact us</h3>
                 <ul className="footer-contact">
                   <li>
-                    <i className="icofont-ui-email" />
+                    <i className="fa-solid fa-at" />
                     <p>
                       <span>support@example.com</span>
                       <span>carrer@example.com</span>
                     </p>
                   </li>
                   <li>
-                    <i className="icofont-ui-touch-phone" />
+                  <i className="fa-solid fa-mobile-screen-button"></i>
                     <p>
                       <span>+120 279 532 13</span>
                       <span>+120 279 532 14</span>
                     </p>
                   </li>
                   <li>
-                    <i className="icofont-location-pin" />
+                    <i className="fa-solid fa-location-dot" />
                     <p>1Hd- 50, 010 Avenue, NY 90001 United States</p>
                   </li>
                 </ul>

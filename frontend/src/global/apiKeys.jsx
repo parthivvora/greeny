@@ -50,12 +50,15 @@ const apiKeys = {
 
   // Comment
   addComments: `${BASE_URL}user/addComments`,
-  getAllCommentData: `${BASE_URL}user/getAllCommentData`,
-  deleteComment: `${BASE_URL}user/deleteComment/`, // http://localhost:7000/api/user/deleteComment/65f7d7233a9bc49c17b83f5c?status=true
+  // getAllCommentData: `${BASE_URL}user/getAllCommentData`,
+  // deleteComment: `${BASE_URL}user/deleteComment/`, // http://localhost:7000/api/user/deleteComment/65f7d7233a9bc49c17b83f5c?status=true
 
   // Subscribe
   subscribeByUser: `${BASE_URL}user/subscribeByUser`,
-  getAllSubscribeList: `${BASE_URL}user/getAllSubscribeList`,
+  // getAllSubscribeList: `${BASE_URL}user/getAllSubscribeList`,
+
+  // Contact us
+  addContactData: `${BASE_URL}user/addContactData`,
 };
 
 export { apiKeys, apiTypes };

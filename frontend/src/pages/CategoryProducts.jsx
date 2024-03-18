@@ -29,7 +29,7 @@ function CategoryProducts() {
         setTotalItems(response.data.productData.length);
       })
       .catch((error) => {
-        alert(error.response.data.message);
+        console.log(error.response.data.message);
       });
   };
 
