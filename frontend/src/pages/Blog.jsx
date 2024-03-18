@@ -18,7 +18,6 @@ function Blog() {
   const getBlogsDetails = () => {
     makeApiRequest(apiTypes.GET, apiKeys.getAllBlogs, null, null, null)
       .then((response) => {
-        // console.log("🚀 ~ file: Blog.jsx:15 ~ .then ~ response:", response)
         setBlogData(response.data.blogData);
         setTotalItems(response.data.blogData.length);
       })

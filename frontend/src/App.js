@@ -35,7 +35,7 @@ function App() {
         <Route path="/faq" element={<Faq />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/brand" element={<BrandList />} />
+        <Route path="/brand/:brandId" element={<BrandList />} />
         <Route path="/product/:productId" element={<ProductDetail />} />
         <Route path="/category/:categoryId" element={<CategoryProducts />} />
       </Routes>

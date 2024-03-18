@@ -22,6 +22,7 @@ const apiKeys = {
   // Brand
   getAllBrands: `${BASE_URL}admin/getAllBrands`,
   getSingleBrand: `${BASE_URL}admin/getSingleBrand`,
+  getProductsSingleBrand: `${BASE_URL}admin/getProductsSingleBrand/`,
 
   // Banners
   getAllBanners: `${BASE_URL}admin/getAllBanners`,

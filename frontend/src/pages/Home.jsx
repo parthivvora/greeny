@@ -116,6 +116,7 @@ function Home() {
     getAllBrandsData();
     getAllProductsData();
   }, []);
+  
   return (
     <div className="home">
       <Navbar />
@@ -179,7 +180,9 @@ function Home() {
                       >
                         <i
                           className="fas fa-heart"
-                          style={{ color: `${product.wishlistStatus ? "red" : ""}` }}
+                          style={{
+                            color: `${product.wishlistStatus ? "red" : ""}`,
+                          }}
                         />
                       </button>
                       <Link
@@ -341,7 +344,7 @@ function Home() {
                     <div className="brand-media">
                       <img src={`${item.brandImage}`} alt={item.brandImage} />
                       <div className="brand-overlay">
-                        <a href="brand-single.html">
+                        <a href={`/brand/${item._id}`}>
                           <i className="fas fa-link" />
                         </a>
                       </div>
@@ -356,20 +359,6 @@ function Home() {
             ) : (
               <p className="text-center text-2xl">No brands data here...!</p>
             )}
-          </div>
-          <div className="row">
-            <div className="col-lg-12">
-              <div
-                className={`section-btn-50 ${
-                  brandData.length == 0 ? "hidden" : ""
-                }`}
-              >
-                <a href="brand-list.html" className="btn btn-outline">
-                  <i className="fas fa-eye" />
-                  <span>view all brands</span>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </section>
