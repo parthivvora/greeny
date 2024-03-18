@@ -181,41 +181,24 @@ function Footer() {
               </div>
             </div>
             <div className="col-sm-6 col-xl-3">
-              <div className="footer-widget">
+              <div className="footer-widget ps-10">
                 <h3 className="footer-title">quick Links</h3>
                 <div className="footer-links">
                   <ul>
                     <li>
-                      <a href="#">My Account</a>
+                      <a href="/profile">My Account</a>
                     </li>
                     <li>
-                      <a href="#">Order History</a>
+                      <a href="/profile">Order History</a>
                     </li>
                     <li>
-                      <a href="#">Order Tracking</a>
+                      <a href="/privacy">Privacy Policy</a>
                     </li>
                     <li>
-                      <a href="#">Best Seller</a>
+                      <a href="/faq">Faq</a>
                     </li>
                     <li>
-                      <a href="#">New Arrivals</a>
-                    </li>
-                  </ul>
-                  <ul>
-                    <li>
-                      <a href="#">Location</a>
-                    </li>
-                    <li>
-                      <a href="#">Affiliates</a>
-                    </li>
-                    <li>
-                      <a href="#">Contact</a>
-                    </li>
-                    <li>
-                      <a href="#">Carrer</a>
-                    </li>
-                    <li>
-                      <a href="#">Faq</a>
+                      <a href="/contact">Contact</a>
                     </li>
                   </ul>
                 </div>
