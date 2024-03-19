@@ -8,6 +8,7 @@ import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 
 function Cart() {
+  let discountAmount = 10;
   const [cartData, setCartData] = useState([]);
   const [viewProductData, setViewProductData] = useState([]);
 
@@ -157,6 +158,15 @@ function Cart() {
       ),
     },
   ];
+
+  // Get sub total for cart items
+  const getSubTotal = () => {
+    let subTotal = 0;
+    cartData.map((item) => {
+      subTotal += item.productDetails.productPrice * item.quantity;
+    });
+    return subTotal;
+  };
 
   useEffect(() => {
     getAllProductCart();
@@ -313,6 +323,31 @@ function Cart() {
                     ) : (
                       <h2 className="text-center">No cart data found</h2>
                     )}
+                  </div>
+                </div>
+                <div className="account-content mt-5">
+                  <div className="checkout-charge">
+                    <ul>
+                      <li>
+                        <span>Subtotal</span>
+                        <span>₹ {getSubTotal()}</span>
+                      </li>
+                      <li>
+                        <span>delivery fee</span>
+                        <span>₹ {discountAmount}</span>
+                      </li>
+                      <li>
+                        <span>
+                          Total<small>(Incl. VAT)</small>
+                        </span>
+                        <span>₹ {getSubTotal() + discountAmount}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="mt-5 text-center">
+                    <button className="btn btn-inline">
+                      processed to checkout
+                    </button>
                   </div>
                 </div>
               </div>

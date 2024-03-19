@@ -4,7 +4,6 @@ const {
   responseStatusCode,
 } = require("../helper/responseHelper");
 const cartModel = require("../models/cart");
-const fs = require("fs");
 const { cartValidation } = require("../validation/cart.validation");
 
 // Add add to cart by User
@@ -67,11 +66,6 @@ exports.getAllCartData = async (req, res) => {
         },
       },
       {
-        $unwind: {
-          path: "$productDetails",
-        },
-      },
-      {
         $lookup: {
           from: "categories",
           localField: "productDetails.categoryId",
@@ -100,6 +94,31 @@ exports.getAllCartData = async (req, res) => {
       {
         $match: {
           isDeleted: false,
+        },
+      },
+      // {
+      //   $addFields: {
+      //     totalAmount: {
+      //       $map: {
+      //         input: "$productDetails",
+      //         as: "product",
+      //         in: { $multiply: ["$quantity", "$$product.productPrice"] },
+      //       },
+      //     },
+      //   },
+      // },
+      // {
+      //   $addFields: {
+      //     totalAmount: {
+      //       $toInt: {
+      //         $arrayElemAt: ["$totalAmount", 0],
+      //       },
+      //     },
+      //   },
+      // },
+      {
+        $unwind: {
+          path: "$productDetails",
         },
       },
       {
