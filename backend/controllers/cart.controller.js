@@ -96,26 +96,6 @@ exports.getAllCartData = async (req, res) => {
           isDeleted: false,
         },
       },
-      // {
-      //   $addFields: {
-      //     totalAmount: {
-      //       $map: {
-      //         input: "$productDetails",
-      //         as: "product",
-      //         in: { $multiply: ["$quantity", "$$product.productPrice"] },
-      //       },
-      //     },
-      //   },
-      // },
-      // {
-      //   $addFields: {
-      //     totalAmount: {
-      //       $toInt: {
-      //         $arrayElemAt: ["$totalAmount", 0],
-      //       },
-      //     },
-      //   },
-      // },
       {
         $unwind: {
           path: "$productDetails",
