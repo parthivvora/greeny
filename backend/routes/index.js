@@ -9,6 +9,7 @@ router.use(
   require("./comment.route"),
   require("./subscribe.route"),
   require("./contact.route"),
+  require("./checkout.route"),
 );
 router.use(
   "/admin",
