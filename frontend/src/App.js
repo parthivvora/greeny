@@ -17,6 +17,7 @@ import ChangePassword from "./pages/ChangePassword";
 import BrandList from "./pages/BrandList";
 import ProductDetail from "./pages/ProductDetail";
 import CategoryProducts from "./pages/CategoryProducts";
+import Success from "./pages/Success";
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
         <Route path="/brand/:brandId" element={<BrandList />} />
         <Route path="/product/:productId" element={<ProductDetail />} />
         <Route path="/category/:categoryId" element={<CategoryProducts />} />
+
+        <Route path="/success" element={<Success />} />
       </Routes>
     </div>
   );

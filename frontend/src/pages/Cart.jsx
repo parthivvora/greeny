@@ -6,11 +6,13 @@ import { apiKeys, apiTypes } from "../global/apiKeys";
 import makeApiRequest from "../global/apiCall";
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
+import "../styles/checkout.css";
 
 function Cart() {
   let discountAmount = 10;
   const [cartData, setCartData] = useState([]);
   const [viewProductData, setViewProductData] = useState([]);
+  const [isShowLoader, setIsShowLoader] = useState(false);
 
   // Get all product of cart
   const getAllProductCart = () => {
@@ -168,6 +170,27 @@ function Cart() {
     return subTotal;
   };
 
+  const handleCheckout = (cartId) => {
+    alert(cartId);
+    setIsShowLoader(true);
+    makeApiRequest(
+      apiTypes.POST,
+      apiKeys.checkout,
+      { cartId: cartId },
+      null,
+      null
+    )
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response.data.session);
+        setIsShowLoader(false);
+        window.location.href = response.data.session;
+      })
+      .catch((error) => {
+        console.log("🚀 ~ handleCheckout ~ error:", error);
+        // alert(error.response.data.message)
+      });
+  };
+
   useEffect(() => {
     getAllProductCart();
   }, []);
@@ -175,7 +198,7 @@ function Cart() {
   return (
     <div>
       <Navbar />
-      <div className="modal fade" id="product-view">
+      <div className="modal fade cart-product-show" id="product-view">
         <div className="modal-dialog">
           <div className="modal-content">
             <button
@@ -275,6 +298,15 @@ function Cart() {
                         </li>
                       </ul>
                     </div>
+                    <div className="mt-5 flex items-center gap-3">
+                      <button
+                        className="btn btn-inline"
+                        onClick={() => handleCheckout(viewProductData?._id)}
+                      >
+                        processed to checkout
+                      </button>
+                      {isShowLoader && <div className="loading"></div>}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -344,11 +376,11 @@ function Cart() {
                       </li>
                     </ul>
                   </div>
-                  <div className="mt-5 text-center">
+                  {/* <div className="mt-5 text-center">
                     <button className="btn btn-inline">
                       processed to checkout
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

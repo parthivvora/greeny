@@ -59,6 +59,9 @@ const apiKeys = {
 
   // Contact us
   addContactData: `${BASE_URL}user/addContactData`,
+
+  // Checkout
+  checkout: `${BASE_URL}user/checkout`,
 };
 
 export { apiKeys, apiTypes };
