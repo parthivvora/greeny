@@ -9,6 +9,7 @@ const stripe = require("stripe")(
   "sk_test_51N6VgwSC7XJMZAFO5OubMNX8SeuQlulgS2POlFksmCPW4oHNCIJIJAPy08F96Xw3CXUpvcE5IM5AHVlz3fw36zZb00hd2Q5zy0"
 );
 
+// Checkout
 exports.checkout = async (req, res) => {
   try {
     const { cartId } = req.body;
@@ -157,6 +158,7 @@ async function checkCustomerExists(email) {
   }
 }
 
+// Order confirm and Store order details
 exports.orderAdd = async (req, res) => {
   try {
     const { session_id } = req.query;
@@ -193,14 +195,97 @@ exports.orderAdd = async (req, res) => {
   }
 };
 
+// Get all orders for Admin
 exports.getAllOrder = async (req, res) => {
   try {
-    const orderData = await orderModel.find();
+    const orderData = await orderModel.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      {
+        $unwind: {
+          path: "$userDetails",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          orderDate: 1,
+          orderStatus: 1,
+          deliveryStatus: 1,
+          "userDetails._id": 1,
+          "userDetails.name": 1,
+        },
+      },
+    ]);
     return res.status(responseStatusCode.SUCCESS).json({
       status: responseStatusText.SUCCESS,
       orderData: orderData,
     });
   } catch (error) {
+    return res.status(responseStatusCode.INTERNAL_SERVER).json({
+      status: responseStatusText.ERROR,
+      message: error.message,
+    });
+  }
+};
+
+// Get all payment for Admin
+exports.getAllPayments = async (req, res) => {
+  try {
+    const paymentData = await orderModel.aggregate([
+      {
+        $project: {
+          _id: 1,
+          paymentId: 1,
+          totalAmount: 1,
+          paymentMethod: 1,
+          paymentStatus: 1,
+          paymentDate: "$orderDate",
+        },
+      },
+    ]);
+    return res.status(responseStatusCode.SUCCESS).json({
+      status: responseStatusText.SUCCESS,
+      paymentData,
+    });
+  } catch (error) {
+    console.log("🚀 ~ exports.getAllPayments= ~ error:", error.message);
+    return res.status(responseStatusCode.INTERNAL_SERVER).json({
+      status: responseStatusText.ERROR,
+      message: error.message,
+    });
+  }
+};
+
+// Update order delivery status by Admin using orderId
+exports.updateOrderDeliveryStatus = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    await orderModel.updateOne(
+      {
+        _id: new mongoose.Types.ObjectId(orderId),
+      },
+      {
+        $set: {
+          deliveryStatus: "Confirmed",
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    return res.status(responseStatusCode.SUCCESS).json({
+      status: responseStatusText.SUCCESS,
+      message: "Your order has been confirmed",
+    });
+  } catch (error) {
+    console.log("🚀 ~ exports.getAllPayments= ~ error:", error.message);
     return res.status(responseStatusCode.INTERNAL_SERVER).json({
       status: responseStatusText.ERROR,
       message: error.message,
